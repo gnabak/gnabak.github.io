@@ -6,7 +6,8 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://your-domain.com', // Update this with your actual domain
+	site: 'https://gnabak.github.io',
+	base: '/dev-blog/',
 	integrations: [
 		tailwind(),
 		mdx(),
