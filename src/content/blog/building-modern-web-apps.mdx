@@ -1,0 +1,217 @@
+---
+title: 'Building Modern Web Applications: My Journey and Lessons Learned'
+description: 'Reflections on building modern web applications, the tools I use, and lessons learned along the way.'
+pubDate: 2024-02-01
+author: 'Gustavo'
+image: '/images/blog/web-apps.svg'
+imageAlt: 'Modern web development illustration'
+tags: ['web-development', 'career', 'productivity', 'tools']
+category: 'thoughts'
+featured: false
+draft: false
+---
+
+# Building Modern Web Applications
+
+After years of building web applications, I've learned that the tools and frameworks are just part of the equation. Today, I want to share my journey and the key lessons that have shaped how I approach development.
+
+## The Evolution of My Stack
+
+### Where I Started
+
+Like many developers, I started with the basics:
+- HTML, CSS, and vanilla JavaScript
+- jQuery for DOM manipulation
+- PHP for backend logic
+
+It worked, but as projects grew more complex, I needed better tools.
+
+### The Transition Period
+
+Then came the era of SPAs (Single Page Applications):
+- **React** became my go-to for UI
+- **Redux** for state management (though often overkill)
+- **Webpack** for bundling (configuration hell!)
+- **REST APIs** for backend communication
+
+This stack was powerful but came with its own challenges:
+- Long build times
+- Complex configuration
+- Heavy JavaScript bundles
+- Poor SEO out of the box
+
+### Modern Approach
+
+Today, my preferred stack focuses on **performance and developer experience**:
+
+```javascript
+const modernStack = {
+	frontend: ['Astro', 'TypeScript', 'Tailwind CSS'],
+	interactivity: ['React', 'Vue', 'Svelte'], // Only where needed
+	backend: ['Node.js', 'Express', 'Fastify'],
+	database: ['PostgreSQL', 'MongoDB'],
+	deployment: ['Vercel', 'Netlify', 'Cloudflare Pages'],
+};
+```
+
+## Key Lessons Learned
+
+### 1. **Start with Static, Add Interactivity Later**
+
+Don't reach for a heavy framework for every project. Often, static HTML with progressive enhancement is all you need.
+
+> "Make it work, make it right, make it fast - in that order."
+
+### 2. **TypeScript is Worth the Investment**
+
+I resisted TypeScript for too long. The upfront time investment pays massive dividends in:
+- Fewer bugs in production
+- Better refactoring experience
+- Self-documenting code
+- Improved team collaboration
+
+### 3. **Performance is a Feature**
+
+Users don't care about your tech stack. They care about:
+- Fast page loads
+- Smooth interactions
+- Responsive UI
+
+Every kilobyte matters. Tools like Lighthouse and WebPageTest are your friends.
+
+### 4. **Write Less Code**
+
+The best code is no code. Before adding a library:
+- Can I solve this with vanilla JavaScript?
+- Is the native Web API sufficient?
+- Do I really need this dependency?
+
+Example - you don't need a library for date formatting:
+
+```javascript
+// ❌ Import moment.js (67KB minified)
+import moment from 'moment';
+const date = moment().format('MMMM Do YYYY');
+
+// ✅ Use native Intl API (0KB)
+const date = new Intl.DateTimeFormat('en-US', {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric',
+}).format(new Date());
+```
+
+### 5. **Accessibility is Not Optional**
+
+Build with accessibility in mind from day one:
+- Semantic HTML
+- Proper ARIA labels
+- Keyboard navigation
+- Color contrast
+- Screen reader testing
+
+It's not just about compliance - it makes your app better for everyone.
+
+## My Development Workflow
+
+### Planning Phase
+1. **Understand the problem** deeply before coding
+2. **Sketch the UI** on paper first
+3. **Define the data model** and API contracts
+4. **Choose the simplest** tool that works
+
+### Implementation Phase
+1. **Start with HTML** structure
+2. **Add styling** with Tailwind (utility-first is faster)
+3. **Implement interactions** with minimal JavaScript
+4. **Test on real devices** early and often
+
+### Deployment Phase
+1. **Run Lighthouse audit**
+2. **Check bundle sizes**
+3. **Test loading** on slow connections
+4. **Monitor errors** with Sentry or similar
+
+## Tools I Can't Live Without
+
+### Development
+- **VSCode** - The best code editor, hands down
+- **Warp** - Modern terminal with AI features
+- **Figma** - For design and prototyping
+
+### Productivity
+- **Linear** - Issue tracking that doesn't suck
+- **Notion** - Documentation and knowledge base
+- **Raycast** - macOS productivity powerhouse
+
+### Testing & Debugging
+- **Chrome DevTools** - Essential for frontend debugging
+- **React DevTools** - Component tree inspection
+- **Postman** - API testing and documentation
+
+## Advice for Aspiring Developers
+
+### 1. **Build Real Projects**
+
+Tutorials are great for learning syntax, but real projects teach you:
+- How to handle edge cases
+- Performance optimization
+- Error handling
+- User experience design
+
+### 2. **Read Other People's Code**
+
+Browse open-source projects on GitHub. You'll learn:
+- Code organization patterns
+- Best practices
+- Common pitfalls to avoid
+
+### 3. **Focus on Fundamentals**
+
+Frameworks come and go, but fundamentals last:
+- **JavaScript** - closures, prototypes, async patterns
+- **CSS** - flexbox, grid, specificity
+- **HTTP** - status codes, headers, caching
+- **Algorithms** - complexity, data structures
+
+### 4. **Stay Curious, Not Overwhelmed**
+
+New tools emerge constantly. You don't need to learn everything. Instead:
+- Master one stack deeply
+- Stay aware of alternatives
+- Learn new things when solving real problems
+
+### 5. **Share Your Knowledge**
+
+Writing blog posts and teaching others:
+- Solidifies your understanding
+- Builds your personal brand
+- Helps the community grow
+
+## Looking Forward
+
+The web platform keeps evolving:
+- **Web Components** are becoming more viable
+- **WASM** opens new possibilities
+- **Edge computing** is changing deployment models
+- **AI tools** are accelerating development
+
+But the core principles remain:
+- Build for users, not for technology
+- Performance matters
+- Accessibility is essential
+- Simple solutions beat complex ones
+
+## Conclusion
+
+Building modern web applications is both challenging and rewarding. The key is to:
+- Choose tools that solve real problems
+- Focus on user experience over tech trends
+- Keep learning and adapting
+- Share your knowledge with others
+
+What's your development philosophy? I'd love to hear about it!
+
+---
+
+*Got questions or want to discuss? Find me on [Twitter](https://twitter.com) or [LinkedIn](https://linkedin.com).*

@@ -1,0 +1,58 @@
+---
+const socialLinks = [
+	{
+		name: 'GitHub',
+		href: 'https://github.com/yourusername',
+		svg: `<rect x="4" y="0" width="8" height="1"/><rect x="2" y="1" width="2" height="1"/><rect x="12" y="1" width="2" height="1"/>
+			<rect x="1" y="2" width="1" height="1"/><rect x="14" y="2" width="1" height="1"/>
+			<rect x="0" y="3" width="1" height="6"/><rect x="15" y="3" width="1" height="6"/>
+			<rect x="1" y="3" width="1" height="1"/><rect x="4" y="3" width="2" height="2"/><rect x="10" y="3" width="2" height="2"/><rect x="14" y="3" width="1" height="1"/>
+			<rect x="1" y="9" width="1" height="1"/><rect x="14" y="9" width="1" height="1"/>
+			<rect x="2" y="10" width="2" height="1"/><rect x="12" y="10" width="2" height="1"/>
+			<rect x="4" y="11" width="8" height="1"/>
+			<rect x="4" y="12" width="2" height="1"/><rect x="10" y="12" width="2" height="1"/>
+			<rect x="3" y="13" width="2" height="1"/><rect x="11" y="13" width="2" height="1"/>
+			<rect x="3" y="14" width="1" height="2"/><rect x="12" y="14" width="1" height="2"/>`,
+	},
+	{
+		name: 'LinkedIn',
+		href: 'https://linkedin.com/in/gustavo-seixas',
+		svg: `<rect x="1" y="0" width="14" height="1"/><rect x="0" y="1" width="1" height="14"/><rect x="15" y="1" width="1" height="14"/><rect x="1" y="15" width="14" height="1"/>
+			<rect x="1" y="1" width="14" height="14" fill="currentColor" opacity="0.15"/>
+			<rect x="3" y="3" width="2" height="2"/><rect x="3" y="6" width="2" height="7"/>
+			<rect x="6" y="6" width="2" height="1"/><rect x="6" y="7" width="1" height="6"/>
+			<rect x="7" y="7" width="2" height="1"/><rect x="9" y="6" width="2" height="1"/>
+			<rect x="11" y="7" width="1" height="6"/><rect x="9" y="8" width="2" height="5"/><rect x="7" y="8" width="2" height="5"/>`,
+	},
+	{
+		name: 'Email',
+		href: 'mailto:gustavo.nb.seixas@gmail.com',
+		svg: `<rect x="0" y="2" width="16" height="1"/><rect x="0" y="3" width="1" height="10"/><rect x="15" y="3" width="1" height="10"/><rect x="0" y="13" width="16" height="1"/>
+			<rect x="1" y="3" width="2" height="1"/><rect x="13" y="3" width="2" height="1"/>
+			<rect x="3" y="4" width="2" height="1"/><rect x="11" y="4" width="2" height="1"/>
+			<rect x="5" y="5" width="2" height="1"/><rect x="9" y="5" width="2" height="1"/>
+			<rect x="7" y="6" width="2" height="1"/>`,
+	},
+];
+---
+
+<section class="space-y-4">
+	<h2 class="font-display text-xl font-bold text-purple">
+		<span class="text-comment font-normal mr-2">#</span>Contact
+	</h2>
+	<div class="flex items-center gap-5">
+		{socialLinks.map((social) => (
+			<a
+				href={social.href}
+				target={social.href.startsWith('mailto:') ? undefined : '_blank'}
+				rel={social.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+				class="text-comment hover:text-green transition-colors"
+				title={social.name}
+			>
+				<svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" style="image-rendering: pixelated;"
+					set:html={social.svg}
+				/>
+			</a>
+		))}
+	</div>
+</section>

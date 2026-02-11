@@ -1,0 +1,28 @@
+/* Default: dark (black terminal) */
+:root {
+	--color-background: 0 0 0;
+	--color-foreground: 204 204 204;
+	--color-muted: 14 14 14;
+	--color-border: 38 38 38;
+	--color-green: 78 201 176;
+	--color-orange: 206 145 120;
+	--color-cyan: 156 220 254;
+	--color-purple: 86 156 214;
+	--color-red: 244 71 71;
+	--color-comment: 106 153 85;
+	--color-primary: 86 156 214;
+}
+
+[data-theme='light'] {
+	--color-background: 252 252 249;
+	--color-foreground: 15 15 15;
+	--color-muted: 240 240 236;
+	--color-border: 210 210 206;
+	--color-green: 38 127 153;
+	--color-orange: 121 94 38;
+	--color-cyan: 4 81 165;
+	--color-purple: 0 112 193;
+	--color-red: 205 49 49;
+	--color-comment: 0 128 0;
+	--color-primary: 0 112 193;
+}

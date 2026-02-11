@@ -1,0 +1,82 @@
+---
+import { formatDate } from '@/utils/formatDate';
+import Badge from '@/components/ui/Badge.astro';
+
+interface Props {
+	title: string;
+	description: string;
+	pubDate: Date;
+	updatedDate?: Date;
+	author: string;
+	tags?: string[];
+	readingTime: number;
+}
+
+const { title, description, pubDate, updatedDate, author, tags, readingTime } = Astro.props;
+---
+
+<header class="mb-12 space-y-6">
+	<!-- Tags -->
+	{tags && tags.length > 0 && (
+		<div class="flex flex-wrap gap-2">
+			{tags.map((tag) => (
+				<Badge href={`/blog/tag/${tag.toLowerCase()}`} variant="gradient">
+					{tag}
+				</Badge>
+			))}
+		</div>
+	)}
+
+	<!-- Title -->
+	<h1 class="font-display text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
+		<span class="gradient-text-animated">{title}</span>
+	</h1>
+
+	<!-- Description -->
+	<p class="text-xl text-foreground/70 leading-relaxed">
+		{description}
+	</p>
+
+	<!-- Metadata -->
+	<div class="flex flex-wrap items-center gap-4 text-sm text-foreground/60">
+		<div class="flex items-center gap-2">
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<circle cx="12" cy="12" r="10"></circle>
+				<polyline points="12 6 12 12 16 14"></polyline>
+			</svg>
+			<time datetime={pubDate.toISOString()}>
+				{formatDate(pubDate)}
+			</time>
+		</div>
+
+		{updatedDate && (
+			<>
+				<span>•</span>
+				<div class="flex items-center gap-2">
+					<span>Updated: {formatDate(updatedDate)}</span>
+				</div>
+			</>
+		)}
+
+		<span>•</span>
+		<div class="flex items-center gap-2">
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+				<path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+			</svg>
+			<span>{readingTime} min read</span>
+		</div>
+
+		<span>•</span>
+		<div class="flex items-center gap-2">
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+				<circle cx="12" cy="7" r="4"></circle>
+			</svg>
+			<span>{author}</span>
+		</div>
+	</div>
+
+	<!-- Divider -->
+	<div class="h-px w-full bg-gradient-primary opacity-20"></div>
+</header>

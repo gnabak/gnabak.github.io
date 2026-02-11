@@ -1,0 +1,111 @@
+/* Fonts */
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+@import '@fontsource/space-grotesk/700.css';
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/500.css';
+@import '@fontsource/jetbrains-mono/700.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Theme color tokens — terminal palette */
+/* Default: dark (black terminal) */
+:root {
+	--color-background: 0 0 0;          /* #000000  true black */
+	--color-foreground: 204 204 204;    /* #cccccc  terminal grey */
+	--color-muted: 14 14 14;            /* #0e0e0e  near-black */
+	--color-border: 38 38 38;           /* #262626  subtle lines */
+	--color-green: 78 201 176;          /* #4ec9b0  teal — links */
+	--color-orange: 206 145 120;        /* #ce9178  salmon — tags */
+	--color-cyan: 156 220 254;          /* #9cdcfe  light blue — metadata */
+	--color-purple: 86 156 214;         /* #569cd6  blue — headings/accent */
+	--color-red: 244 71 71;             /* #f44747  red — errors */
+	--color-comment: 106 153 85;        /* #6a9955  green — comments */
+	--color-primary: 86 156 214;
+}
+
+[data-theme='light'] {
+	--color-background: 252 252 249;    /* #fcfcf9  warm paper */
+	--color-foreground: 15 15 15;       /* #0f0f0f  near-black text */
+	--color-muted: 240 240 236;         /* #f0f0ec  warm grey */
+	--color-border: 210 210 206;        /* #d2d2ce  warm border */
+	--color-green: 38 127 153;          /* #267f99  teal — links */
+	--color-orange: 121 94 38;          /* #795e26  amber — tags */
+	--color-cyan: 4 81 165;             /* #0451a5  blue — metadata */
+	--color-purple: 0 112 193;          /* #0070c1  blue — headings/accent */
+	--color-red: 205 49 49;             /* #cd3131  red — errors */
+	--color-comment: 0 128 0;           /* #008000  green — comments */
+	--color-primary: 0 112 193;
+}
+
+@layer base {
+	html {
+		scroll-behavior: smooth;
+	}
+
+	body {
+		@apply bg-background text-foreground transition-colors duration-200;
+	}
+
+	/* Dark mode (default): subtle scanline texture */
+	body {
+		background-image: repeating-linear-gradient(
+			0deg,
+			rgb(var(--color-foreground) / 0.015) 0px,
+			rgb(var(--color-foreground) / 0.015) 1px,
+			transparent 1px,
+			transparent 3px
+		);
+		background-size: 100% 3px;
+	}
+
+	/* Light mode: subtle dot grid texture */
+	[data-theme='light'] body {
+		background-image: radial-gradient(rgb(var(--color-border) / 0.4) 1px, transparent 1px);
+		background-size: 20px 20px;
+	}
+
+	::selection {
+		background-color: rgb(var(--color-purple) / 0.25);
+	}
+}
+
+@layer components {
+	.focus-visible-ring {
+		@apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+	}
+
+	.prose img {
+		@apply rounded-lg;
+	}
+
+	.prose pre {
+		@apply rounded-lg border border-border;
+	}
+
+	/* Blinking cursor */
+	.cursor-blink::after {
+		content: '|';
+		animation: blink 1s step-end infinite;
+		color: rgb(var(--color-green));
+		font-weight: 400;
+	}
+
+	@keyframes blink {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0; }
+	}
+
+	/* Editor line-highlight on hover */
+	.line-highlight {
+		transition: background-color 0.15s ease;
+		border-radius: 0.25rem;
+	}
+	.line-highlight:hover {
+		background-color: rgb(var(--color-muted));
+	}
+}

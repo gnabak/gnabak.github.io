@@ -1,0 +1,45 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BlogCard from '@/components/blog/BlogCard.astro';
+import Button from '@/components/ui/Button.astro';
+
+interface Props {
+	posts: CollectionEntry<'blog'>[];
+}
+
+const { posts } = Astro.props;
+---
+
+{posts.length > 0 && (
+	<section class="py-20">
+		<div class="container mx-auto px-4">
+			<!-- Section header -->
+			<div class="mb-12 text-center space-y-4">
+				<h2 class="font-display text-4xl font-bold sm:text-5xl">
+					Latest <span class="gradient-text">Blog Posts</span>
+				</h2>
+				<p class="text-lg text-foreground/70 max-w-2xl mx-auto">
+					Thoughts, tutorials, and insights about web development, programming, and technology.
+				</p>
+			</div>
+
+			<!-- Posts grid -->
+			<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 mb-12">
+				{posts.map((post) => (
+					<BlogCard post={post} />
+				))}
+			</div>
+
+			<!-- View all button -->
+			<div class="text-center">
+				<Button variant="outline" size="lg" href="/blog">
+					View All Posts
+					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2">
+						<path d="M5 12h14"></path>
+						<path d="m12 5 7 7-7 7"></path>
+					</svg>
+				</Button>
+			</div>
+		</div>
+	</section>
+)}

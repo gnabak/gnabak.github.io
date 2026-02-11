@@ -1,0 +1,72 @@
+---
+import Card from '@/components/ui/Card.astro';
+
+const skills = [
+	{
+		category: 'Frontend',
+		items: ['React', 'TypeScript', 'Next.js', 'Astro', 'Tailwind CSS', 'Vue.js'],
+		icon: `<path d="m2 3 20 12L2 27V3z"></path>`,
+	},
+	{
+		category: 'Backend',
+		items: ['Node.js', 'Express', 'PostgreSQL', 'MongoDB', 'Prisma', 'REST APIs'],
+		icon: `<rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M7 7h.01"></path><path d="M17 7h.01"></path><path d="M7 17h.01"></path><path d="M17 17h.01"></path>`,
+	},
+	{
+		category: 'Tools & DevOps',
+		items: ['Git', 'Docker', 'Vercel', 'GitHub Actions', 'VS Code', 'Linux'],
+		icon: `<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle>`,
+	},
+];
+---
+
+<section class="py-20 bg-muted/30">
+	<div class="container mx-auto px-4">
+		<!-- Section header -->
+		<div class="mb-12 text-center space-y-4">
+			<h2 class="font-display text-4xl font-bold sm:text-5xl">
+				Tech <span class="gradient-text">Stack</span>
+			</h2>
+			<p class="text-lg text-foreground/70 max-w-2xl mx-auto">
+				Technologies and tools I use to bring ideas to life.
+			</p>
+		</div>
+
+		<!-- Skills grid -->
+		<div class="grid gap-8 md:grid-cols-3">
+			{skills.map((skill) => (
+				<Card hover>
+					<div class="space-y-4">
+						<!-- Icon -->
+						<div class="inline-flex p-3 rounded-lg bg-gradient-primary">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="white"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								set:html={skill.icon}
+							/>
+						</div>
+
+						<!-- Category -->
+						<h3 class="font-display text-2xl font-bold">{skill.category}</h3>
+
+						<!-- Items -->
+						<div class="flex flex-wrap gap-2">
+							{skill.items.map((item) => (
+								<span class="rounded-full bg-muted px-3 py-1 text-sm text-foreground/70">
+									{item}
+								</span>
+							))}
+						</div>
+					</div>
+				</Card>
+			))}
+		</div>
+	</div>
+</section>

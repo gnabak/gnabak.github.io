@@ -1,0 +1,278 @@
+---
+title: 'TaskFlow - Modern Task Management Application'
+description: 'A full-stack task management application built with React, Node.js, and PostgreSQL featuring real-time updates and team collaboration.'
+techStack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Socket.io', 'Tailwind CSS']
+demoUrl: 'https://taskflow-demo.example.com'
+githubUrl: 'https://github.com/yourusername/taskflow'
+featured: true
+completedDate: 2024-01-15
+order: 1
+---
+
+# TaskFlow - Modern Task Management
+
+A comprehensive task management application designed for teams and individuals who want to stay organized and productive.
+
+## 🎯 Project Overview
+
+TaskFlow is a full-stack application that helps teams manage their tasks, projects, and workflows efficiently. Built with modern technologies, it offers real-time collaboration, intuitive UI, and powerful features.
+
+## ✨ Key Features
+
+### Task Management
+- **Create and organize** tasks with tags, priorities, and due dates
+- **Drag-and-drop** interface for easy task reordering
+- **Subtasks** for breaking down complex work
+- **Task dependencies** to manage workflows
+- **Custom fields** for project-specific requirements
+
+### Team Collaboration
+- **Real-time updates** using WebSockets
+- **Team workspaces** with role-based permissions
+- **Comments and mentions** for team communication
+- **Activity feed** showing team progress
+- **File attachments** for task resources
+
+### Project Views
+- **Kanban board** for visual workflow management
+- **List view** for detailed task lists
+- **Calendar view** for deadline tracking
+- **Timeline/Gantt chart** for project planning
+
+### Advanced Features
+- **Search and filtering** across all tasks
+- **Saved filters** for quick access
+- **Email notifications** for task updates
+- **Mobile responsive** design
+- **Dark mode** support
+
+## 🛠️ Technical Implementation
+
+### Frontend Architecture
+
+```typescript
+// Task type definition
+interface Task {
+	id: string;
+	title: string;
+	description: string;
+	status: 'todo' | 'in-progress' | 'review' | 'done';
+	priority: 'low' | 'medium' | 'high';
+	assigneeId: string;
+	dueDate: Date;
+	tags: string[];
+	createdAt: Date;
+	updatedAt: Date;
+}
+
+// React Query for data fetching
+const { data: tasks, isLoading } = useQuery({
+	queryKey: ['tasks', projectId],
+	queryFn: () => fetchTasks(projectId),
+});
+
+// Real-time updates with Socket.io
+useEffect(() => {
+	socket.on('task:updated', (task: Task) => {
+		queryClient.setQueryData(['tasks', projectId], (old: Task[]) =>
+			old.map((t) => (t.id === task.id ? task : t))
+		);
+	});
+}, []);
+```
+
+### Backend API
+
+Built with Node.js and Express:
+
+```typescript
+// Task controller
+class TaskController {
+	async createTask(req: Request, res: Response) {
+		const { title, description, projectId } = req.body;
+
+		const task = await prisma.task.create({
+			data: {
+				title,
+				description,
+				projectId,
+				createdBy: req.user.id,
+			},
+		});
+
+		// Broadcast to all project members
+		io.to(`project-${projectId}`).emit('task:created', task);
+
+		res.json(task);
+	}
+
+	async updateTask(req: Request, res: Response) {
+		const { id } = req.params;
+		const updates = req.body;
+
+		const task = await prisma.task.update({
+			where: { id },
+			data: updates,
+		});
+
+		io.to(`project-${task.projectId}`).emit('task:updated', task);
+
+		res.json(task);
+	}
+}
+```
+
+### Database Schema
+
+PostgreSQL with Prisma ORM:
+
+```prisma
+model Task {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  status      Status   @default(TODO)
+  priority    Priority @default(MEDIUM)
+  dueDate     DateTime?
+
+  project     Project  @relation(fields: [projectId], references: [id])
+  projectId   String
+
+  assignee    User?    @relation(fields: [assigneeId], references: [id])
+  assigneeId  String?
+
+  tags        Tag[]
+  comments    Comment[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+
+  tasks       Task[]
+  members     User[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+```
+
+## 🎨 Design Decisions
+
+### State Management
+Chose **React Query** over Redux because:
+- Automatic caching and background updates
+- Built-in loading and error states
+- Optimistic updates out of the box
+- Less boilerplate code
+
+### Real-time Updates
+Implemented with **Socket.io** for:
+- Bidirectional communication
+- Automatic reconnection
+- Room-based broadcasting
+- Fallback to polling
+
+### UI Component Library
+Used **Radix UI** primitives with Tailwind:
+- Accessible by default
+- Unstyled, easy to customize
+- Comprehensive keyboard navigation
+- No runtime styles
+
+## 📈 Performance Optimizations
+
+### Frontend
+- **Code splitting** with React.lazy()
+- **Virtual scrolling** for large task lists
+- **Debounced search** to reduce API calls
+- **Optimistic updates** for instant feedback
+- **Image optimization** with next/image
+
+### Backend
+- **Database indexing** on frequently queried fields
+- **Pagination** for large datasets
+- **Caching** with Redis for user sessions
+- **Rate limiting** to prevent abuse
+- **Database connection pooling**
+
+## 🚀 Deployment
+
+### Frontend
+- **Vercel** for automatic deployments
+- **Edge functions** for API routes
+- **CDN** for static assets
+- **Environment-based** configuration
+
+### Backend
+- **Railway** for Node.js hosting
+- **PostgreSQL** managed database
+- **Redis** cloud for caching
+- **GitHub Actions** for CI/CD
+
+## 📊 Results
+
+- **500+ active users** in first month
+- **99.9% uptime** with monitoring
+- **< 2s page load** time
+- **Lighthouse score:** 95+
+- **Positive user feedback** on UX
+
+## 🎓 Lessons Learned
+
+### What Went Well
+- TypeScript prevented many bugs before production
+- React Query simplified data fetching significantly
+- Real-time updates improved user experience
+- Tailwind CSS accelerated UI development
+
+### Challenges Overcome
+- **WebSocket scaling:** Implemented Redis adapter for multiple servers
+- **Database queries:** Optimized N+1 queries with proper eager loading
+- **State synchronization:** Handled race conditions with optimistic locking
+- **Mobile UX:** Adapted drag-and-drop for touch devices
+
+### Future Improvements
+- Add offline support with Service Workers
+- Implement AI-powered task suggestions
+- Add time tracking features
+- Build native mobile apps
+- Add integrations with Slack, GitHub, etc.
+
+## 🔗 Links
+
+- **Live Demo:** [taskflow-demo.example.com](https://taskflow-demo.example.com)
+- **GitHub:** [github.com/yourusername/taskflow](https://github.com/yourusername/taskflow)
+- **API Docs:** [docs.taskflow.com](https://docs.taskflow.com)
+
+## 💻 Tech Stack Summary
+
+**Frontend:**
+- React 18 with TypeScript
+- React Query for data fetching
+- Tailwind CSS for styling
+- Radix UI for primitives
+- Socket.io client for real-time
+
+**Backend:**
+- Node.js with Express
+- TypeScript for type safety
+- Prisma ORM for database
+- PostgreSQL for data storage
+- Socket.io for WebSockets
+- Redis for caching
+
+**DevOps:**
+- Vercel for frontend hosting
+- Railway for backend hosting
+- GitHub Actions for CI/CD
+- Sentry for error tracking
+- PostHog for analytics
+
+---
+
+*This project demonstrates my ability to build full-stack applications with modern technologies, focusing on performance, user experience, and scalability.*

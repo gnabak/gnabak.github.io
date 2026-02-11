@@ -1,0 +1,34 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BlogLayout from '@/layouts/BlogLayout.astro';
+import { filterDraftPosts } from '@/utils/sortPosts';
+import { getRelatedPosts } from '@/utils/getRelatedPosts';
+
+export async function getStaticPaths() {
+	const allPosts = await getCollection('blog');
+	const publishedPosts = filterDraftPosts(allPosts);
+
+	return publishedPosts.map((post) => ({
+		params: { slug: post.slug },
+		props: { post },
+	}));
+}
+
+interface Props {
+	post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+
+// Get related posts
+const allPosts = await getCollection('blog');
+const publishedPosts = filterDraftPosts(allPosts);
+const relatedPosts = getRelatedPosts(post, publishedPosts, 3);
+
+// Render the content
+const { Content } = await post.render();
+---
+
+<BlogLayout post={post} relatedPosts={relatedPosts}>
+	<Content />
+</BlogLayout>

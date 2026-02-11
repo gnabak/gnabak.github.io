@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '@/layouts/PageLayout.astro';
+import BlogCard from '@/components/blog/BlogCard.astro';
+import Badge from '@/components/ui/Badge.astro';
+import { sortPostsByDate, filterDraftPosts } from '@/utils/sortPosts';
+import { getAllTags } from '@/utils/getAllTags';
+
+const allPosts = await getCollection('blog');
+const publishedPosts = filterDraftPosts(allPosts);
+const posts = sortPostsByDate(publishedPosts);
+const tagsWithCount = getAllTags(posts);
+---
+
+<PageLayout
+	title="Blog"
+	description="Writing about web development, programming, and tools."
+>
+	<div class="mb-12 space-y-6">
+		<h1 class="font-display text-3xl font-bold sm:text-4xl text-purple">Blog</h1>
+		<p class="text-comment">
+			Writing about what I learn and build.
+		</p>
+
+		{tagsWithCount.length > 0 && (
+			<div class="flex flex-wrap gap-2">
+				{tagsWithCount.slice(0, 10).map((tag) => (
+					<Badge href={`/blog/tag/${tag.name.toLowerCase()}`}>
+						{tag.name} ({tag.count})
+					</Badge>
+				))}
+			</div>
+		)}
+	</div>
+
+	{posts.length > 0 ? (
+		<div class="space-y-6">
+			{posts.map((post) => (
+				<BlogCard post={post} />
+			))}
+		</div>
+	) : (
+		<p class="text-comment">No posts yet.</p>
+	)}
+</PageLayout>

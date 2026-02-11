@@ -1,0 +1,235 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+---
+
+<PageLayout
+	title="About"
+	description="Backend Software Engineer building scalable, low-latency systems."
+>
+	<div class="mx-auto max-w-2xl space-y-12">
+
+		<!-- Intro -->
+		<section class="space-y-4">
+			<p class="text-lg leading-relaxed">
+				I'm <span class="text-purple font-semibold">Gustavo Seixas</span>, a Backend Software Engineer with 5+ years of experience building scalable, low-latency systems in high-throughput environments.
+			</p>
+			<p class="leading-relaxed text-foreground/80">
+				Currently at <strong class="text-orange">Amazon</strong> in Vancouver, Canada — working on financial event processing and platform reliability. Passionate about system architecture, reliability and efficiency.
+			</p>
+
+			<!-- Resume download button -->
+			<div class="flex items-center gap-4 pt-2">
+				<a
+					href="/file/Resume.pdf"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="group inline-flex items-center gap-3 font-mono text-sm border border-border rounded px-4 py-2.5 bg-muted/50 hover:border-purple hover:bg-muted transition-all"
+				>
+					<!-- Pixel download icon -->
+					<svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="text-comment group-hover:text-green transition-colors" style="image-rendering: pixelated;">
+						<rect x="7" y="1" width="2" height="8" fill="currentColor"/>
+						<rect x="5" y="7" width="2" height="2" fill="currentColor"/>
+						<rect x="9" y="7" width="2" height="2" fill="currentColor"/>
+						<rect x="3" y="9" width="2" height="2" fill="currentColor"/>
+						<rect x="11" y="9" width="2" height="2" fill="currentColor"/>
+						<rect x="2" y="12" width="12" height="2" fill="currentColor"/>
+						<rect x="1" y="13" width="2" height="2" fill="currentColor"/>
+						<rect x="13" y="13" width="2" height="2" fill="currentColor"/>
+					</svg>
+					<span class="text-comment group-hover:text-foreground transition-colors">
+						<span class="text-green">$</span> cat resume.pdf
+					</span>
+				</a>
+			</div>
+		</section>
+
+		<!-- Interests -->
+		<section class="space-y-3">
+			<h2 class="font-display text-xl font-bold text-purple">
+				<span class="text-comment font-normal mr-2">#</span>Interests
+			</h2>
+			<p class="leading-relaxed text-foreground/80">
+				Distributed systems, event-driven architectures, cloud infrastructure, microservices, platform reliability, data processing at scale, IoT, and embedded systems.
+			</p>
+		</section>
+
+		<!-- Experience -->
+		<section class="space-y-6">
+			<h2 class="font-display text-xl font-bold text-purple">
+				<span class="text-comment font-normal mr-2">#</span>Experience
+			</h2>
+
+			<div class="space-y-4">
+				<div class="border-l-[3px] border-purple pl-4 py-1">
+					<div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+						<h3 class="font-display font-semibold">
+							Amazon <span class="text-comment font-normal">— Software Engineer II</span>
+						</h3>
+						<span class="font-mono text-xs text-comment">Oct 2022 – Present</span>
+					</div>
+				</div>
+
+				<div class="border-l-[3px] border-purple pl-4 py-1">
+					<div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+						<h3 class="font-display font-semibold">
+							QuintoAndar <span class="text-comment font-normal">— Software Engineer</span>
+						</h3>
+						<span class="font-mono text-xs text-comment">Apr 2021 – Sep 2022</span>
+					</div>
+				</div>
+
+				<div class="border-l-[3px] border-purple pl-4 py-1">
+					<div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+						<h3 class="font-display font-semibold">
+							EasyAccess <span class="text-comment font-normal">— Software Engineer Intern</span>
+						</h3>
+						<span class="font-mono text-xs text-comment">Oct 2020 – Mar 2021</span>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Education -->
+		<section class="space-y-3">
+			<h2 class="font-display text-xl font-bold text-purple">
+				<span class="text-comment font-normal mr-2">#</span>Education
+			</h2>
+			<div class="border-l-[3px] border-purple pl-4 space-y-2">
+				<div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+					<h3 class="font-display font-semibold">
+						Federal University of Itajuba <span class="text-comment font-normal">— B.Sc. Computer Engineering</span>
+					</h3>
+					<span class="font-mono text-xs text-comment">2017 – 2022</span>
+				</div>
+				<ul class="space-y-1.5 text-sm text-foreground/80">
+					<li class="flex gap-2">
+						<span class="text-comment select-none">-</span>
+						<span>ELAP Scholar — Canadian Government-funded program for Emerging Leaders in Americas.</span>
+					</li>
+					<li class="flex gap-2">
+						<span class="text-comment select-none">-</span>
+						<span>Honeywell Research Scholar (2019–2020): IoT-to-web integration for industrial use.</span>
+					</li>
+				</ul>
+			</div>
+		</section>
+
+		<!-- Skills -->
+		<section class="space-y-3">
+			<h2 class="font-display text-xl font-bold text-purple">
+				<span class="text-comment font-normal mr-2">#</span>Skills
+			</h2>
+			<div class="flex flex-wrap gap-2">
+				{[
+					'Java', 'Go', 'Python', 'TypeScript',
+					'Spring', 'Microservices', 'Event-Driven',
+					'AWS', 'Docker', 'Kubernetes', 'CI/CD',
+					'SQL', 'NoSQL', 'Spark', 'Hadoop',
+					'React', 'Node.js',
+				].map((skill) => (
+					<span class="font-mono text-xs px-2 py-1 rounded bg-muted text-orange border border-border">
+						{skill}
+					</span>
+				))}
+			</div>
+		</section>
+
+		<!-- Languages -->
+		<section class="space-y-3">
+			<h2 class="font-display text-xl font-bold text-purple">
+				<span class="text-comment font-normal mr-2">#</span>Languages
+			</h2>
+			<ul class="space-y-1.5 font-mono text-sm">
+				<li class="flex gap-3">
+					<span class="text-cyan">Portuguese</span>
+					<span class="text-comment">// Native</span>
+				</li>
+				<li class="flex gap-3">
+					<span class="text-cyan">English</span>
+					<span class="text-comment">// Fluent</span>
+				</li>
+				<li class="flex gap-3">
+					<span class="text-cyan">French</span>
+					<span class="text-comment">// Basic</span>
+				</li>
+			</ul>
+		</section>
+
+		<!-- Contact — pixel icons -->
+		<section class="space-y-3">
+			<h2 class="font-display text-xl font-bold text-purple">
+				<span class="text-comment font-normal mr-2">#</span>Contact
+			</h2>
+			<div class="flex items-center gap-5">
+				<!-- GitHub -->
+				<a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer"
+					class="text-comment hover:text-green transition-colors" title="GitHub">
+					<svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" style="image-rendering: pixelated;">
+						<rect x="4" y="0" width="8" height="1"/>
+						<rect x="2" y="1" width="2" height="1"/>
+						<rect x="12" y="1" width="2" height="1"/>
+						<rect x="1" y="2" width="1" height="1"/>
+						<rect x="14" y="2" width="1" height="1"/>
+						<rect x="0" y="3" width="1" height="6"/>
+						<rect x="15" y="3" width="1" height="6"/>
+						<rect x="1" y="3" width="1" height="1"/>
+						<rect x="4" y="3" width="2" height="2"/>
+						<rect x="10" y="3" width="2" height="2"/>
+						<rect x="14" y="3" width="1" height="1"/>
+						<rect x="1" y="9" width="1" height="1"/>
+						<rect x="14" y="9" width="1" height="1"/>
+						<rect x="2" y="10" width="2" height="1"/>
+						<rect x="12" y="10" width="2" height="1"/>
+						<rect x="4" y="11" width="8" height="1"/>
+						<rect x="4" y="12" width="2" height="1"/>
+						<rect x="10" y="12" width="2" height="1"/>
+						<rect x="3" y="13" width="2" height="1"/>
+						<rect x="11" y="13" width="2" height="1"/>
+						<rect x="3" y="14" width="1" height="2"/>
+						<rect x="12" y="14" width="1" height="2"/>
+					</svg>
+				</a>
+
+				<!-- LinkedIn -->
+				<a href="https://linkedin.com/in/gustavo-seixas" target="_blank" rel="noopener noreferrer"
+					class="text-comment hover:text-green transition-colors" title="LinkedIn">
+					<svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" style="image-rendering: pixelated;">
+						<rect x="1" y="0" width="14" height="1"/>
+						<rect x="0" y="1" width="1" height="14"/>
+						<rect x="15" y="1" width="1" height="14"/>
+						<rect x="1" y="15" width="14" height="1"/>
+						<rect x="1" y="1" width="14" height="14" fill="currentColor" opacity="0.15"/>
+						<rect x="3" y="3" width="2" height="2"/>
+						<rect x="3" y="6" width="2" height="7"/>
+						<rect x="6" y="6" width="2" height="1"/>
+						<rect x="6" y="7" width="1" height="6"/>
+						<rect x="7" y="7" width="2" height="1"/>
+						<rect x="9" y="6" width="2" height="1"/>
+						<rect x="11" y="7" width="1" height="6"/>
+						<rect x="9" y="8" width="2" height="5"/>
+						<rect x="7" y="8" width="2" height="5"/>
+					</svg>
+				</a>
+
+				<!-- Email -->
+				<a href="mailto:gustavo.nb.seixas@gmail.com"
+					class="text-comment hover:text-green transition-colors" title="Email">
+					<svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" style="image-rendering: pixelated;">
+						<rect x="0" y="2" width="16" height="1"/>
+						<rect x="0" y="3" width="1" height="10"/>
+						<rect x="15" y="3" width="1" height="10"/>
+						<rect x="0" y="13" width="16" height="1"/>
+						<rect x="1" y="3" width="2" height="1"/>
+						<rect x="13" y="3" width="2" height="1"/>
+						<rect x="3" y="4" width="2" height="1"/>
+						<rect x="11" y="4" width="2" height="1"/>
+						<rect x="5" y="5" width="2" height="1"/>
+						<rect x="9" y="5" width="2" height="1"/>
+						<rect x="7" y="6" width="2" height="1"/>
+					</svg>
+				</a>
+			</div>
+		</section>
+
+	</div>
+</PageLayout>

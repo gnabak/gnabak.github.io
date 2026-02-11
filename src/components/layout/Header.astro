@@ -1,0 +1,164 @@
+---
+import DarkModeToggle from '@/components/features/DarkModeToggle.astro';
+
+const currentPath = Astro.url.pathname;
+
+const navItems = [
+	{
+		label: 'Blog',
+		href: '/blog',
+		// Pixel notepad / document icon
+		icon: `<rect x="3" y="0" width="8" height="1"/><rect x="11" y="1" width="2" height="2"/>
+			<rect x="2" y="1" width="1" height="14"/><rect x="13" y="3" width="1" height="12"/>
+			<rect x="3" y="15" width="10" height="1"/>
+			<rect x="4" y="4" width="8" height="1"/><rect x="4" y="6" width="8" height="1"/>
+			<rect x="4" y="8" width="8" height="1"/><rect x="4" y="10" width="5" height="1"/>`,
+	},
+	{
+		label: 'Projects',
+		href: '/projects',
+		// Pixel terminal / command prompt icon
+		icon: `<rect x="0" y="1" width="16" height="1"/><rect x="0" y="2" width="1" height="12"/>
+			<rect x="15" y="2" width="1" height="12"/><rect x="0" y="14" width="16" height="1"/>
+			<rect x="1" y="2" width="14" height="1" opacity="0.15"/>
+			<rect x="3" y="5" width="2" height="2"/><rect x="5" y="7" width="2" height="2"/>
+			<rect x="7" y="9" width="2" height="2"/><rect x="9" y="11" width="4" height="1"/>`,
+	},
+	{
+		label: 'About',
+		href: '/about',
+		// Pixel person / user icon
+		icon: `<rect x="5" y="0" width="6" height="1"/><rect x="4" y="1" width="1" height="1"/><rect x="11" y="1" width="1" height="1"/>
+			<rect x="3" y="2" width="1" height="4"/><rect x="12" y="2" width="1" height="4"/>
+			<rect x="4" y="6" width="1" height="1"/><rect x="11" y="6" width="1" height="1"/>
+			<rect x="5" y="7" width="6" height="1"/>
+			<rect x="6" y="2" width="2" height="2"/><rect x="10" y="2" width="1" height="2"/>
+			<rect x="4" y="9" width="8" height="1"/><rect x="3" y="10" width="1" height="1"/><rect x="12" y="10" width="1" height="1"/>
+			<rect x="2" y="11" width="1" height="3"/><rect x="13" y="11" width="1" height="3"/>
+			<rect x="1" y="14" width="2" height="1"/><rect x="13" y="14" width="2" height="1"/>
+			<rect x="0" y="15" width="2" height="1"/><rect x="14" y="15" width="2" height="1"/>`,
+	},
+];
+
+const isActive = (href: string) => {
+	if (href === '/') return currentPath === '/';
+	return currentPath.startsWith(href);
+};
+---
+
+<header class="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border">
+	<div class="container mx-auto px-4">
+		<div class="flex h-14 items-center justify-between">
+			<!-- Logo -->
+			<a href="/" class="font-mono text-lg font-bold hover:text-green transition-colors">
+				<span class="text-comment">~/</span>gustavo
+			</a>
+
+			<!-- Desktop Navigation -->
+			<nav class="hidden items-center gap-5 md:flex">
+				{navItems.map((item) => (
+					<a
+						href={item.href}
+						class={`group flex items-center gap-2 font-mono text-sm transition-colors pb-1 ${
+							isActive(item.href)
+								? 'text-foreground border-b-2 border-purple'
+								: 'text-comment hover:text-foreground'
+						}`}
+						title={item.label}
+					>
+						<svg
+							width="14" height="14" viewBox="0 0 16 16" fill="currentColor"
+							style="image-rendering: pixelated;"
+							class="flex-shrink-0"
+							set:html={item.icon}
+						/>
+						{item.label}
+					</a>
+				))}
+
+				<div class="border-l border-border pl-4">
+					<DarkModeToggle />
+				</div>
+			</nav>
+
+			<!-- Mobile -->
+			<div class="flex items-center gap-3 md:hidden">
+				<DarkModeToggle />
+				<button
+					id="mobile-menu-toggle"
+					class="p-1.5 text-comment hover:text-foreground transition-colors"
+					aria-label="Toggle menu"
+					aria-expanded="false"
+				>
+					<!-- Pixel hamburger -->
+					<svg id="menu-icon" width="18" height="18" viewBox="0 0 16 16" fill="currentColor" style="image-rendering: pixelated;">
+						<rect x="1" y="2" width="14" height="2"/>
+						<rect x="1" y="7" width="14" height="2"/>
+						<rect x="1" y="12" width="14" height="2"/>
+					</svg>
+					<!-- Pixel close -->
+					<svg id="close-icon" class="hidden" width="18" height="18" viewBox="0 0 16 16" fill="currentColor" style="image-rendering: pixelated;">
+						<rect x="2" y="2" width="2" height="2"/><rect x="12" y="2" width="2" height="2"/>
+						<rect x="4" y="4" width="2" height="2"/><rect x="10" y="4" width="2" height="2"/>
+						<rect x="6" y="6" width="4" height="4"/>
+						<rect x="4" y="10" width="2" height="2"/><rect x="10" y="10" width="2" height="2"/>
+						<rect x="2" y="12" width="2" height="2"/><rect x="12" y="12" width="2" height="2"/>
+					</svg>
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Mobile Navigation -->
+	<div id="mobile-menu" class="hidden border-t border-border bg-background md:hidden">
+		<nav class="container mx-auto px-4 py-4 flex flex-col gap-2">
+			{navItems.map((item) => (
+				<a
+					href={item.href}
+					class={`flex items-center gap-3 font-mono py-2 text-sm transition-colors ${
+						isActive(item.href)
+							? 'text-foreground border-l-2 border-purple pl-3'
+							: 'text-comment hover:text-foreground pl-3'
+					}`}
+				>
+					<svg
+						width="14" height="14" viewBox="0 0 16 16" fill="currentColor"
+						style="image-rendering: pixelated;"
+						class="flex-shrink-0"
+						set:html={item.icon}
+					/>
+					{item.label}
+				</a>
+			))}
+		</nav>
+	</div>
+</header>
+
+<script>
+	function initMobileMenu() {
+		const toggle = document.getElementById('mobile-menu-toggle');
+		const menu = document.getElementById('mobile-menu');
+		const menuIcon = document.getElementById('menu-icon');
+		const closeIcon = document.getElementById('close-icon');
+
+		toggle?.addEventListener('click', () => {
+			const expanded = toggle.getAttribute('aria-expanded') === 'true';
+			toggle.setAttribute('aria-expanded', String(!expanded));
+			menu?.classList.toggle('hidden');
+			menuIcon?.classList.toggle('hidden');
+			closeIcon?.classList.toggle('hidden');
+		});
+
+		menu?.querySelectorAll('a').forEach((link) => {
+			link.addEventListener('click', () => {
+				menu.classList.add('hidden');
+				menuIcon?.classList.remove('hidden');
+				closeIcon?.classList.add('hidden');
+				toggle?.setAttribute('aria-expanded', 'false');
+			});
+		});
+	}
+
+	initMobileMenu();
+	document.addEventListener('astro:after-swap', initMobileMenu);
+</script>

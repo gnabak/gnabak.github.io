@@ -1,0 +1,63 @@
+---
+interface Props {
+	headings: { depth: number; slug: string; text: string }[];
+}
+
+const { headings } = Astro.props;
+
+// Filter to only show h2 and h3 headings
+const filteredHeadings = headings.filter((h) => h.depth <= 3);
+---
+
+{filteredHeadings.length > 0 && (
+	<nav class="toc sticky top-24 space-y-4" aria-label="Table of contents">
+		<h2 class="font-display text-lg font-semibold">On this page</h2>
+		<ul class="space-y-2 text-sm">
+			{filteredHeadings.map((heading) => (
+				<li
+					class={`border-l-2 border-border hover:border-primary transition-colors ${
+						heading.depth === 3 ? 'pl-6' : 'pl-3'
+					}`}
+				>
+					<a
+						href={`#${heading.slug}`}
+						class="block py-1 text-foreground/70 hover:text-primary transition-colors"
+					>
+						{heading.text}
+					</a>
+				</li>
+			))}
+		</ul>
+	</nav>
+)}
+
+<script>
+	// Highlight current section in TOC
+	const observer = new IntersectionObserver(
+		(entries) => {
+			entries.forEach((entry) => {
+				const id = entry.target.getAttribute('id');
+				const tocLink = document.querySelector(`.toc a[href="#${id}"]`);
+
+				if (entry.isIntersecting) {
+					document.querySelectorAll('.toc a').forEach((link) => {
+						link.classList.remove('text-primary', 'font-semibold');
+						link.classList.add('text-foreground/70');
+					});
+
+					tocLink?.classList.remove('text-foreground/70');
+					tocLink?.classList.add('text-primary', 'font-semibold');
+				}
+			});
+		},
+		{
+			rootMargin: '-100px 0px -66%',
+			threshold: 1,
+		}
+	);
+
+	// Observe all headings
+	document.querySelectorAll('article h2, article h3').forEach((heading) => {
+		observer.observe(heading);
+	});
+</script>

@@ -1,0 +1,15 @@
+---
+interface Props {
+	class?: string;
+	animated?: boolean;
+	as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
+}
+
+const { class: className, animated = false, as: Tag = 'span' } = Astro.props;
+
+const classes = `${animated ? 'gradient-text-animated' : 'gradient-text'} ${className || ''}`;
+---
+
+<Tag class={classes}>
+	<slot />
+</Tag>

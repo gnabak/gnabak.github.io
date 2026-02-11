@@ -1,0 +1,179 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import PixelScene from '@/components/features/PixelScene.astro';
+import { sortPostsByDate, filterDraftPosts, getFeaturedProjects } from '@/utils/sortPosts';
+
+// Get latest blog posts (3)
+const allPosts = await getCollection('blog');
+const publishedPosts = filterDraftPosts(allPosts);
+const sortedPosts = sortPostsByDate(publishedPosts);
+const latestPosts = sortedPosts.slice(0, 3);
+
+// Get featured projects (2)
+const allProjects = await getCollection('projects');
+const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
+---
+
+<BaseLayout
+	title="Gustavo Seixas - Backend Software Engineer"
+	description="Backend Software Engineer at Amazon in Vancouver. Building scalable systems and writing about development."
+>
+	<Header />
+
+	<main class="container mx-auto px-4 py-12">
+		<div class="mx-auto max-w-3xl space-y-20">
+			<!-- Intro -->
+			<section class="flex flex-col sm:flex-row sm:items-center gap-6">
+				<div class="flex-shrink-0">
+					<PixelScene />
+				</div>
+				<div class="space-y-4">
+					<h1 class="font-display text-4xl font-bold sm:text-5xl">
+						Hi, I'm <span class="text-purple">Gustavo</span><span class="cursor-blink"></span>
+					</h1>
+					<p class="text-xl text-foreground/80 leading-relaxed">
+						Backend Software Engineer at <strong class="text-orange">Amazon</strong> in Vancouver. I build scalable, low-latency systems and write about what I learn.
+					</p>
+				</div>
+			</section>
+
+			<!-- Latest Posts -->
+			{latestPosts.length > 0 && (
+				<section class="space-y-6">
+					<h2 class="font-display text-2xl font-bold text-purple">
+						<span class="text-comment font-normal text-base mr-2">#</span>Recent Writing
+					</h2>
+					<div class="space-y-2">
+						{latestPosts.map((post) => (
+							<a href={`/blog/${post.slug}`} class="block group">
+								<article class="border-l-[3px] border-purple pl-4 py-3 ml-0 sm:-ml-4 line-highlight flex gap-4 items-start shadow-sm">
+									{post.data.image && (
+										<img
+											src={post.data.image}
+											alt={post.data.imageAlt || post.data.title}
+											class="hidden sm:block w-16 h-16 rounded object-cover border border-border flex-shrink-0 mt-0.5"
+										/>
+									)}
+									<div class="space-y-2 min-w-0">
+										<h3 class="text-lg font-semibold group-hover:text-green transition-colors">
+											<span class="font-mono text-comment text-sm mr-2">.md</span>{post.data.title}
+										</h3>
+										<p class="text-foreground/70 text-sm">
+											{post.data.description}
+										</p>
+										<div class="flex items-center gap-3 font-mono text-xs text-comment">
+											<span class="text-comment">//</span>
+											<time datetime={post.data.pubDate.toISOString()}>
+												{new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(post.data.pubDate)}
+											</time>
+											{post.data.tags && post.data.tags.length > 0 && (
+												<span class="text-orange">{post.data.tags[0]}</span>
+											)}
+										</div>
+									</div>
+								</article>
+							</a>
+						))}
+					</div>
+					<a href="/blog" class="inline-block font-mono text-sm text-comment hover:text-green transition-colors">
+						View all posts →
+					</a>
+				</section>
+			)}
+
+			<!-- Projects -->
+			{featuredProjects.length > 0 && (
+				<section class="space-y-6">
+					<h2 class="font-display text-2xl font-bold text-purple">
+						<span class="text-comment font-normal text-base mr-2">#</span>Projects
+					</h2>
+					<div class="space-y-6">
+						{featuredProjects.map((project) => (
+							<a href={`/projects/${project.slug}`} class="block group">
+								<article class="space-y-3 p-4 line-highlight border border-border rounded-lg">
+									<h3 class="text-lg font-semibold group-hover:text-green transition-colors">
+										{project.data.title}
+									</h3>
+									<p class="text-foreground/70 text-sm">
+										{project.data.description}
+									</p>
+									{project.data.techStack && project.data.techStack.length > 0 && (
+										<div class="flex flex-wrap gap-2">
+											{project.data.techStack.slice(0, 4).map((tech) => (
+												<span class="font-mono text-xs px-2 py-1 rounded bg-muted text-orange border border-border">
+													{tech}
+												</span>
+											))}
+										</div>
+									)}
+								</article>
+							</a>
+						))}
+					</div>
+					<a href="/projects" class="inline-block font-mono text-sm text-comment hover:text-green transition-colors">
+						View all projects →
+					</a>
+				</section>
+			)}
+
+			<!-- Contact -->
+			<section class="flex items-center gap-5 pt-8 border-t border-border">
+				<!-- GitHub -->
+				<a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer"
+					class="text-comment hover:text-green transition-colors" title="GitHub">
+					<svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" style="image-rendering: pixelated;">
+						<rect x="4" y="0" width="8" height="1"/><rect x="2" y="1" width="2" height="1"/><rect x="12" y="1" width="2" height="1"/>
+						<rect x="1" y="2" width="1" height="1"/><rect x="14" y="2" width="1" height="1"/>
+						<rect x="0" y="3" width="1" height="6"/><rect x="15" y="3" width="1" height="6"/>
+						<rect x="1" y="3" width="1" height="1"/><rect x="4" y="3" width="2" height="2"/><rect x="10" y="3" width="2" height="2"/><rect x="14" y="3" width="1" height="1"/>
+						<rect x="1" y="9" width="1" height="1"/><rect x="14" y="9" width="1" height="1"/>
+						<rect x="2" y="10" width="2" height="1"/><rect x="12" y="10" width="2" height="1"/>
+						<rect x="4" y="11" width="8" height="1"/>
+						<rect x="4" y="12" width="2" height="1"/><rect x="10" y="12" width="2" height="1"/>
+						<rect x="3" y="13" width="2" height="1"/><rect x="11" y="13" width="2" height="1"/>
+						<rect x="3" y="14" width="1" height="2"/><rect x="12" y="14" width="1" height="2"/>
+					</svg>
+				</a>
+				<!-- LinkedIn -->
+				<a href="https://linkedin.com/in/gustavo-seixas" target="_blank" rel="noopener noreferrer"
+					class="text-comment hover:text-green transition-colors" title="LinkedIn">
+					<svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" style="image-rendering: pixelated;">
+						<rect x="1" y="0" width="14" height="1"/><rect x="0" y="1" width="1" height="14"/><rect x="15" y="1" width="1" height="14"/><rect x="1" y="15" width="14" height="1"/>
+						<rect x="1" y="1" width="14" height="14" fill="currentColor" opacity="0.15"/>
+						<rect x="3" y="3" width="2" height="2"/><rect x="3" y="6" width="2" height="7"/>
+						<rect x="6" y="6" width="2" height="1"/><rect x="6" y="7" width="1" height="6"/>
+						<rect x="7" y="7" width="2" height="1"/><rect x="9" y="6" width="2" height="1"/>
+						<rect x="11" y="7" width="1" height="6"/><rect x="9" y="8" width="2" height="5"/><rect x="7" y="8" width="2" height="5"/>
+					</svg>
+				</a>
+				<!-- Email -->
+				<a href="mailto:gustavo.nb.seixas@gmail.com"
+					class="text-comment hover:text-green transition-colors" title="Email">
+					<svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" style="image-rendering: pixelated;">
+						<rect x="0" y="2" width="16" height="1"/><rect x="0" y="3" width="1" height="10"/><rect x="15" y="3" width="1" height="10"/><rect x="0" y="13" width="16" height="1"/>
+						<rect x="1" y="3" width="2" height="1"/><rect x="13" y="3" width="2" height="1"/>
+						<rect x="3" y="4" width="2" height="1"/><rect x="11" y="4" width="2" height="1"/>
+						<rect x="5" y="5" width="2" height="1"/><rect x="9" y="5" width="2" height="1"/>
+						<rect x="7" y="6" width="2" height="1"/>
+					</svg>
+				</a>
+				<!-- RSS -->
+				<a href="/rss.xml"
+					class="text-comment hover:text-green transition-colors" title="RSS">
+					<svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" style="image-rendering: pixelated;">
+						<rect x="1" y="0" width="14" height="1"/><rect x="0" y="1" width="1" height="14"/><rect x="15" y="1" width="1" height="14"/><rect x="1" y="15" width="14" height="1"/>
+						<rect x="1" y="1" width="14" height="14" fill="currentColor" opacity="0.15"/>
+						<rect x="3" y="11" width="2" height="2"/>
+						<rect x="3" y="8" width="2" height="1"/><rect x="5" y="9" width="1" height="2"/><rect x="6" y="11" width="1" height="2"/>
+						<rect x="3" y="5" width="2" height="1"/><rect x="5" y="5" width="1" height="1"/><rect x="7" y="6" width="1" height="2"/><rect x="8" y="8" width="1" height="2"/><rect x="9" y="10" width="1" height="2"/><rect x="9" y="11" width="1" height="2"/>
+					</svg>
+				</a>
+			</section>
+		</div>
+	</main>
+
+	<Footer />
+</BaseLayout>
