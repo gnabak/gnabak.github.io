@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import BlogCard from '@/components/blog/BlogCard.astro';
 import { sortPostsByDate, filterDraftPosts, getFeaturedProjects } from '@/utils/sortPosts';
 
 // Get latest blog posts (3)
@@ -19,17 +20,39 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 	description="Backend Software Engineer at Amazon in Vancouver. Building scalable systems and writing about development."
 >
 	<main class="container mx-auto px-4 py-12">
-		<div class="mx-auto max-w-3xl space-y-20">
-			<!-- About -->
-			<section class="space-y-4">
-				<h1 class="font-display text-4xl font-bold sm:text-5xl">
-					<span class="text-gold">Gustavo Seixas</span><span class="cursor-blink"></span>
-				</h1>
-				<p class="text-lg text-foreground/80 leading-relaxed">
-					Backend Software Engineer at <strong class="text-orange">Amazon</strong> in Vancouver. Building scalable, low-latency systems in high-throughput environments.
-				</p>
+		<div class="mx-auto max-w-3xl space-y-14">
+			<!-- Hero -->
+			<section class="space-y-6 relative overflow-hidden" id="ascii-banner">
+				<pre class="text-gold font-mono text-[0.45rem] leading-[1.1] sm:text-[0.6rem] md:text-xs select-none" aria-label="gnabak">{`
+  ██████╗ ███╗   ██╗ █████╗ ██████╗  █████╗ ██╗  ██╗
+ ██╔════╝ ████╗  ██║██╔══██╗██╔══██╗██╔══██╗██║ ██╔╝
+ ██║  ███╗██╔██╗ ██║███████║██████╔╝███████║█████╔╝
+ ██║   ██║██║╚██╗██║██╔══██║██╔══██╗██╔══██║██╔═██╗
+ ╚██████╔╝██║ ╚████║██║  ██║██████╔╝██║  ██║██║  ██╗
+  ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝`}</pre>
+
+				<div class="font-mono text-sm space-y-1">
+					<p>
+						<span class="text-comment">$</span> <span class="text-foreground">whoami</span>
+					</p>
+					<p class="text-green">
+						<span class="typing-line">&gt; backend engineer, snowboarder, builder</span>
+					</p>
+				</div>
+
+				<div class="font-mono text-sm space-y-1">
+					<p>
+						<span class="text-comment">$</span> <span class="text-foreground">cat role.txt</span>
+					</p>
+					<p class="text-foreground/80">
+						&gt; software engineer at <span class="text-orange">Amazon</span> in Vancouver.
+					</p>
+					<p class="text-foreground/80">
+						&gt; building scalable, low-latency systems in high-throughput environments.
+					</p>
+				</div>
 				<a href="/about" class="inline-block font-mono text-sm text-comment hover:text-green transition-colors">
-					More about me →
+					man gnabak →
 				</a>
 			</section>
 
@@ -40,31 +63,12 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 						Recent Writing
 					</h2>
 					<div class="space-y-2">
-						{latestPosts.map((post) => (
-							<a href={`/blog/${post.slug}`} class="block group">
-								<article class="border-l-[3px] border-gold pl-4 py-3 ml-0 sm:-ml-4 line-highlight shadow-sm">
-									<div class="space-y-2 min-w-0">
-										<h3 class="text-lg font-semibold group-hover:text-green transition-colors">
-											{post.data.title}
-										</h3>
-										<p class="text-foreground/70 text-sm">
-											{post.data.description}
-										</p>
-										<div class="flex items-center gap-3 font-mono text-xs text-comment">
-											<time datetime={post.data.pubDate.toISOString()}>
-												{new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(post.data.pubDate)}
-											</time>
-											{post.data.tags && post.data.tags.length > 0 && (
-												<span class="text-orange">{post.data.tags[0]}</span>
-											)}
-										</div>
-									</div>
-								</article>
-							</a>
+						{latestPosts.map((post, index) => (
+							<BlogCard post={post} lineNumber={index + 1} />
 						))}
 					</div>
-					<a href="/blog" class="inline-block font-mono text-sm text-comment hover:text-green transition-colors">
-						View all posts →
+					<a href="/posts" class="inline-block font-mono text-sm text-comment hover:text-green transition-colors">
+						cd ~/posts →
 					</a>
 				</section>
 			)}
@@ -99,7 +103,7 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 						))}
 					</div>
 					<a href="/projects" class="inline-block font-mono text-sm text-comment hover:text-green transition-colors">
-						View all projects →
+						cd ~/projects →
 					</a>
 				</section>
 			)}
@@ -159,4 +163,84 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 			</section>
 		</div>
 	</main>
+<script>
+	const banner = document.getElementById('ascii-banner');
+	if (banner) {
+		let clicks: number[] = [];
+		banner.addEventListener('click', () => {
+			const now = Date.now();
+			clicks.push(now);
+			clicks = clicks.filter(t => now - t < 5000);
+			if (clicks.length >= 7) {
+				clicks = [];
+				const boarder = document.createElement('div');
+				boarder.innerHTML = `<svg width="24" height="24" viewBox="0 0 16 16" style="image-rendering:pixelated" fill="rgb(var(--color-green))">
+					<rect x="7" y="1" width="3" height="1"/>
+					<rect x="7" y="2" width="3" height="2"/>
+					<rect x="7" y="2" width="3" height="1" fill="rgb(var(--color-orange))"/>
+					<rect x="7" y="4" width="3" height="2" fill="rgb(var(--color-orange))"/>
+					<rect x="5" y="4" width="2" height="1"/>
+					<rect x="10" y="5" width="2" height="1"/>
+					<rect x="6" y="6" width="2" height="2"/>
+					<rect x="9" y="6" width="2" height="2"/>
+					<rect x="4" y="8" width="9" height="2" rx="1" fill="rgb(var(--color-green))"/>
+					<rect x="2" y="9" width="1" height="1" fill="rgb(var(--color-foreground))" opacity="0.5"/>
+					<rect x="13" y="9" width="1" height="1" fill="rgb(var(--color-foreground))" opacity="0.5"/>
+				</svg>`;
+				boarder.style.cssText = 'position:absolute;z-index:10;pointer-events:none;';
+				banner.appendChild(boarder);
+				const bRect = banner.getBoundingClientRect();
+				const w = bRect.width;
+				const h = bRect.height;
+				const dur = 4000;
+				const start = performance.now();
+				// S-curve: descend top-to-bottom, sway left-right
+				const midX = w / 2;
+				const sway = w * 0.18;
+				function getPos(t: number) {
+					const x = midX + Math.sin(t * Math.PI * 2) * sway;
+					const y = -24 + t * (h + 48);
+					return { x, y };
+				}
+				// Draw trail as an SVG path
+				const trailSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+				trailSvg.setAttribute('width', String(w));
+				trailSvg.setAttribute('height', String(h));
+				trailSvg.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible;';
+				const trailPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+				trailPath.setAttribute('fill', 'none');
+				trailPath.setAttribute('stroke', 'rgb(var(--color-foreground))');
+				trailPath.setAttribute('stroke-opacity', '0.3');
+				trailPath.setAttribute('stroke-width', '2');
+				trailPath.setAttribute('stroke-linecap', 'round');
+				trailPath.setAttribute('stroke-linejoin', 'round');
+				trailSvg.appendChild(trailPath);
+				banner.appendChild(trailSvg);
+				let pathData = '';
+				function frame(time: number) {
+					const p = Math.min((time - start) / dur, 1);
+					const ease = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+					const { x, y } = getPos(ease);
+					boarder.style.left = x + 'px';
+					boarder.style.top = y + 'px';
+					if (!pathData) {
+						pathData = `M${x + 12} ${y + 20}`;
+					} else {
+						pathData += ` L${x + 12} ${y + 20}`;
+					}
+					trailPath.setAttribute('d', pathData);
+					if (p < 1) {
+						requestAnimationFrame(frame);
+					} else {
+						boarder.remove();
+						trailSvg.style.transition = 'opacity 2s ease';
+						requestAnimationFrame(() => { trailSvg.style.opacity = '0'; });
+						setTimeout(() => { trailSvg.remove(); }, 2100);
+					}
+				}
+				requestAnimationFrame(frame);
+			}
+		});
+	}
+</script>
 </BaseLayout>

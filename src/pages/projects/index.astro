@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import PageLayout from '@/layouts/PageLayout.astro';
-import Badge from '@/components/ui/Badge.astro';
 import { sortProjectsByOrder } from '@/utils/sortPosts';
 
 const allProjects = await getCollection('projects');
@@ -12,29 +11,38 @@ const projects = sortProjectsByOrder(allProjects);
 	title="Projects"
 	description="Things I've built."
 >
-	<div class="mb-12 space-y-2">
-		<h1 class="font-display text-3xl font-bold sm:text-4xl text-gold">Projects</h1>
-		<p class="text-comment">Things I've built.</p>
+	<div class="mb-12 space-y-6">
+		<div class="font-mono text-sm space-y-1">
+			<p>
+				<span class="text-comment">$</span> <span class="text-foreground">ls ~/projects</span>
+			</p>
+			<p class="text-comment">&gt; {projects.length} projects found</p>
+		</div>
 	</div>
 
 	{projects.length > 0 ? (
-		<div class="space-y-8">
-			{projects.map((project) => (
+		<div class="space-y-2">
+			{projects.map((project, index) => (
 				<a href={`/projects/${project.slug}`} class="block group">
-					<article class="space-y-3">
-						<h2 class="text-lg font-semibold group-hover:text-green transition-colors">
-							{project.data.title}
-						</h2>
-						<p class="text-foreground/70 text-sm">
-							{project.data.description}
-						</p>
-						{project.data.techStack && project.data.techStack.length > 0 && (
-							<div class="flex flex-wrap gap-2">
-								{project.data.techStack.map((tech) => (
-									<Badge>{tech}</Badge>
-								))}
-							</div>
-						)}
+					<article class="flex line-highlight rounded font-mono text-sm">
+						<div class="flex-none w-10 pt-3 pb-3 text-right pr-3 text-comment/50 border-r border-border select-none">
+							{index + 1}
+						</div>
+						<div class="flex-1 py-3 pl-4 space-y-1.5 min-w-0">
+							<p class="text-gold font-semibold group-hover:text-green transition-colors">
+								{project.data.title}
+							</p>
+							<p class="text-foreground/60 text-xs">
+								/// {project.data.description}
+							</p>
+							{project.data.techStack && project.data.techStack.length > 0 && (
+								<p class="text-xs">
+									{project.data.techStack.map((tech, i) => (
+										<><span class="text-orange">{tech}</span>{i < project.data.techStack.length - 1 && <span class="text-comment">, </span>}</>
+									))}
+								</p>
+							)}
+						</div>
 					</article>
 				</a>
 			))}

@@ -32,25 +32,19 @@ const posts = sortPostsByDate(taggedPosts);
 	title={`Posts tagged "${tag}"`}
 	description={`Blog posts tagged with ${tag}.`}
 >
-	<div class="mb-8">
-		<a href="/blog" class="font-mono text-sm text-comment hover:text-green transition-colors">
-			← Back to Blog
-		</a>
-	</div>
-
-	<div class="mb-12 space-y-2">
-		<h1 class="font-display text-3xl font-bold text-gold">
-			Tagged "{tag}"
-		</h1>
-		<p class="font-mono text-comment">
-			{posts.length} {posts.length === 1 ? 'post' : 'posts'}
-		</p>
+	<div class="mb-12 space-y-6">
+		<div class="font-mono text-sm space-y-1">
+			<p>
+				<span class="text-comment">$</span> <span class="text-foreground">grep -r "{tag}" ~/posts</span>
+			</p>
+			<p class="text-comment">&gt; {posts.length} {posts.length === 1 ? 'post' : 'posts'} found</p>
+		</div>
 	</div>
 
 	{posts.length > 0 ? (
 		<div class="space-y-6">
-			{posts.map((post) => (
-				<BlogCard post={post} />
+			{posts.map((post, index) => (
+				<BlogCard post={post} lineNumber={index + 1} />
 			))}
 		</div>
 	) : (

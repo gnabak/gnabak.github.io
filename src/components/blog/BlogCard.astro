@@ -4,31 +4,40 @@ import { getReadingTime } from '@/utils/getRelatedPosts';
 
 interface Props {
 	post: CollectionEntry<'blog'>;
+	lineNumber?: number;
 }
 
-const { post } = Astro.props;
+const { post, lineNumber } = Astro.props;
 const { title, description, pubDate, tags } = post.data;
 const readingTime = getReadingTime(post.body);
+const formattedDate = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(pubDate);
 ---
 
-<a href={`/blog/${post.slug}`} class="block group">
-	<article class="border-l-[3px] border-gold pl-4 py-3 -ml-4 line-highlight">
-		<div class="space-y-2 min-w-0">
-			<h3 class="text-lg font-semibold group-hover:text-green transition-colors">
-				{title}
-			</h3>
-			<p class="text-foreground/70 text-sm">
-				{description}
-			</p>
-			<div class="flex items-center gap-3 font-mono text-xs text-comment">
-				<time datetime={pubDate.toISOString()}>
-					{new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(pubDate)}
-				</time>
-				<span class="text-lime">{readingTime} min read</span>
-				{tags && tags.length > 0 && (
-					<span class="text-orange">{tags[0]}</span>
-				)}
+<a href={`/posts/${post.slug}`} class="block group">
+	<article class="flex line-highlight rounded font-mono text-sm">
+		{lineNumber && (
+			<div class="flex-none w-10 pt-3 pb-3 text-right pr-3 text-comment/50 border-r border-border select-none">
+				{lineNumber}
 			</div>
+		)}
+		<div class="flex-1 py-3 pl-4 space-y-1.5 min-w-0">
+			<p class="text-comment text-xs">
+				// {formattedDate}
+				{tags && tags.length > 0 && (
+					<> &mdash; {tags.map((tag, i) => (
+						<><span class="text-orange">{tag}</span>{i < tags.length - 1 && ', '}</>
+					))}</>
+				)}
+			</p>
+			<p class="text-gold font-semibold group-hover:text-green transition-colors">
+				{title}
+			</p>
+			<p class="text-foreground/60 text-xs">
+				/// {description}
+			</p>
+			<p class="text-green text-xs">
+				"{readingTime} min read"
+			</p>
 		</div>
 	</article>
 </a>

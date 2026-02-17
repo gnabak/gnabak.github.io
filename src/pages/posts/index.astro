@@ -13,19 +13,21 @@ const tagsWithCount = getAllTags(posts);
 ---
 
 <PageLayout
-	title="Blog"
+	title="Posts"
 	description="Writing about web development, programming, and tools."
 >
 	<div class="mb-12 space-y-6">
-		<h1 class="font-display text-3xl font-bold sm:text-4xl text-gold">Blog</h1>
-		<p class="text-comment">
-			Writing about what I learn and build.
-		</p>
+		<div class="font-mono text-sm space-y-1">
+			<p>
+				<span class="text-comment">$</span> <span class="text-foreground">ls ~/posts</span>
+			</p>
+			<p class="text-comment">&gt; {posts.length} posts found</p>
+		</div>
 
 		{tagsWithCount.length > 0 && (
 			<div class="flex flex-wrap gap-2">
 				{tagsWithCount.slice(0, 10).map((tag) => (
-					<Badge href={`/blog/tag/${tag.name.toLowerCase()}`}>
+					<Badge href={`/posts/tag/${tag.name.toLowerCase()}`}>
 						{tag.name} ({tag.count})
 					</Badge>
 				))}
@@ -35,8 +37,8 @@ const tagsWithCount = getAllTags(posts);
 
 	{posts.length > 0 ? (
 		<div class="space-y-6">
-			{posts.map((post) => (
-				<BlogCard post={post} />
+			{posts.map((post, index) => (
+				<BlogCard post={post} lineNumber={index + 1} />
 			))}
 		</div>
 	) : (

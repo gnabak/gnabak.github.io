@@ -53,7 +53,7 @@ const readingTime = getReadingTime(post.body);
 				{tags && tags.length > 0 && (
 					<div class="flex flex-wrap gap-2">
 						{tags.map((tag) => (
-							<Badge href={`/blog/tag/${tag.toLowerCase()}`}>{tag}</Badge>
+							<Badge href={`/posts/tag/${tag.toLowerCase()}`}>{tag}</Badge>
 						))}
 					</div>
 				)}
