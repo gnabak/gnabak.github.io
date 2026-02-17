@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
-	darkMode: ['class', '[data-theme="light"]'],
+	darkMode: 'media',
 	theme: {
 		extend: {
 			colors: {
@@ -12,8 +12,8 @@ export default {
 				border: 'rgb(var(--color-border) / <alpha-value>)',
 				green: 'rgb(var(--color-green) / <alpha-value>)',
 				orange: 'rgb(var(--color-orange) / <alpha-value>)',
-				cyan: 'rgb(var(--color-cyan) / <alpha-value>)',
-				purple: 'rgb(var(--color-purple) / <alpha-value>)',
+				lime: 'rgb(var(--color-lime) / <alpha-value>)',
+				gold: 'rgb(var(--color-gold) / <alpha-value>)',
 				red: 'rgb(var(--color-red) / <alpha-value>)',
 				comment: 'rgb(var(--color-comment) / <alpha-value>)',
 			},
@@ -43,13 +43,13 @@ export default {
 							color: 'rgb(var(--color-orange))',
 						},
 						h1: {
-							color: 'rgb(var(--color-purple))',
+							color: 'rgb(var(--color-gold))',
 						},
 						h2: {
-							color: 'rgb(var(--color-purple))',
+							color: 'rgb(var(--color-gold))',
 						},
 						h3: {
-							color: 'rgb(var(--color-purple) / 0.85)',
+							color: 'rgb(var(--color-gold) / 0.85)',
 						},
 						code: {
 							backgroundColor: 'rgb(var(--color-muted))',

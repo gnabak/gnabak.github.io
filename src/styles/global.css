@@ -12,34 +12,36 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Theme color tokens — terminal palette */
-/* Default: dark (black terminal) */
+/* Theme color tokens — summer terminal palette */
+/* Default: dark (warm summer night) */
 :root {
-	--color-background: 0 0 0;          /* #000000  true black */
-	--color-foreground: 204 204 204;    /* #cccccc  terminal grey */
-	--color-muted: 14 14 14;            /* #0e0e0e  near-black */
-	--color-border: 38 38 38;           /* #262626  subtle lines */
-	--color-green: 78 201 176;          /* #4ec9b0  teal — links */
-	--color-orange: 206 145 120;        /* #ce9178  salmon — tags */
-	--color-cyan: 156 220 254;          /* #9cdcfe  light blue — metadata */
-	--color-purple: 86 156 214;         /* #569cd6  blue — headings/accent */
-	--color-red: 244 71 71;             /* #f44747  red — errors */
-	--color-comment: 106 153 85;        /* #6a9955  green — comments */
-	--color-primary: 86 156 214;
+	--color-background: 15 15 22;       /* warm navy */
+	--color-foreground: 225 218 200;    /* warm cream */
+	--color-muted: 25 25 35;            /* deep twilight */
+	--color-border: 50 50 60;           /* dusky edge */
+	--color-green: 85 220 120;          /* meadow green — links */
+	--color-orange: 255 165 55;         /* sunset amber — tags */
+	--color-lime: 95 195 245;           /* summer sky — metadata */
+	--color-gold: 240 195 75;           /* golden hour — headings */
+	--color-red: 255 110 100;           /* coral hibiscus — errors */
+	--color-comment: 120 155 100;       /* sage grass — comments */
+	--color-primary: 240 195 75;
 }
 
-[data-theme='light'] {
-	--color-background: 252 252 249;    /* #fcfcf9  warm paper */
-	--color-foreground: 15 15 15;       /* #0f0f0f  near-black text */
-	--color-muted: 240 240 236;         /* #f0f0ec  warm grey */
-	--color-border: 210 210 206;        /* #d2d2ce  warm border */
-	--color-green: 38 127 153;          /* #267f99  teal — links */
-	--color-orange: 121 94 38;          /* #795e26  amber — tags */
-	--color-cyan: 4 81 165;             /* #0451a5  blue — metadata */
-	--color-purple: 0 112 193;          /* #0070c1  blue — headings/accent */
-	--color-red: 205 49 49;             /* #cd3131  red — errors */
-	--color-comment: 0 128 0;           /* #008000  green — comments */
-	--color-primary: 0 112 193;
+@media (prefers-color-scheme: light) {
+	:root {
+		--color-background: 255 250 238;    /* warm cream paper */
+		--color-foreground: 35 30 25;       /* warm near-black */
+		--color-muted: 245 238 225;         /* soft parchment */
+		--color-border: 215 208 195;        /* warm sand */
+		--color-green: 15 135 55;           /* deep forest — links */
+		--color-orange: 190 95 5;           /* deep amber — tags */
+		--color-lime: 10 100 180;           /* deep sky — metadata */
+		--color-gold: 155 110 15;           /* deep honey — headings */
+		--color-red: 195 50 45;             /* deep coral — errors */
+		--color-comment: 75 115 55;         /* deep sage — comments */
+		--color-primary: 155 110 15;
+	}
 }
 
 @layer base {
@@ -64,13 +66,15 @@
 	}
 
 	/* Light mode: subtle dot grid texture */
-	[data-theme='light'] body {
-		background-image: radial-gradient(rgb(var(--color-border) / 0.4) 1px, transparent 1px);
-		background-size: 20px 20px;
+	@media (prefers-color-scheme: light) {
+		body {
+			background-image: radial-gradient(rgb(var(--color-border) / 0.4) 1px, transparent 1px);
+			background-size: 20px 20px;
+		}
 	}
 
 	::selection {
-		background-color: rgb(var(--color-purple) / 0.25);
+		background-color: rgb(var(--color-gold) / 0.25);
 	}
 }
 

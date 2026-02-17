@@ -1,28 +1,30 @@
-/* Default: dark (black terminal) */
+/* Default: dark (warm summer night) */
 :root {
-	--color-background: 0 0 0;
-	--color-foreground: 204 204 204;
-	--color-muted: 14 14 14;
-	--color-border: 38 38 38;
-	--color-green: 78 201 176;
-	--color-orange: 206 145 120;
-	--color-cyan: 156 220 254;
-	--color-purple: 86 156 214;
-	--color-red: 244 71 71;
-	--color-comment: 106 153 85;
-	--color-primary: 86 156 214;
+	--color-background: 15 15 22;
+	--color-foreground: 225 218 200;
+	--color-muted: 25 25 35;
+	--color-border: 50 50 60;
+	--color-green: 85 220 120;
+	--color-orange: 255 165 55;
+	--color-lime: 95 195 245;
+	--color-gold: 240 195 75;
+	--color-red: 255 110 100;
+	--color-comment: 120 155 100;
+	--color-primary: 240 195 75;
 }
 
-[data-theme='light'] {
-	--color-background: 252 252 249;
-	--color-foreground: 15 15 15;
-	--color-muted: 240 240 236;
-	--color-border: 210 210 206;
-	--color-green: 38 127 153;
-	--color-orange: 121 94 38;
-	--color-cyan: 4 81 165;
-	--color-purple: 0 112 193;
-	--color-red: 205 49 49;
-	--color-comment: 0 128 0;
-	--color-primary: 0 112 193;
+@media (prefers-color-scheme: light) {
+	:root {
+		--color-background: 255 250 238;
+		--color-foreground: 35 30 25;
+		--color-muted: 245 238 225;
+		--color-border: 215 208 195;
+		--color-green: 15 135 55;
+		--color-orange: 190 95 5;
+		--color-lime: 10 100 180;
+		--color-gold: 155 110 15;
+		--color-red: 195 50 45;
+		--color-comment: 75 115 55;
+		--color-primary: 155 110 15;
+	}
 }

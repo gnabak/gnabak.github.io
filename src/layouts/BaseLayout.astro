@@ -22,7 +22,7 @@ const {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL(image, Astro.site);
-const siteTitle = 'Gustavo - Developer & Creator';
+const siteTitle = 'gnabak';
 const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 ---
 
@@ -61,13 +61,6 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 
 		<!-- Preconnect to external domains -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
-
-		<!-- Theme script - must be inline to prevent flash -->
-		<script is:inline>
-			// Get theme from localStorage or default to dark
-			const theme = localStorage.getItem('theme') || 'dark';
-			if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
-		</script>
 
 		<!-- View Transitions for smooth navigation -->
 		<ViewTransitions />

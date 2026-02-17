@@ -12,7 +12,7 @@ const readingTime = getReadingTime(post.body);
 ---
 
 <a href={`/blog/${post.slug}`} class="block group">
-	<article class="border-l-[3px] border-purple pl-4 py-3 -ml-4 line-highlight">
+	<article class="border-l-[3px] border-gold pl-4 py-3 -ml-4 line-highlight">
 		<div class="space-y-2 min-w-0">
 			<h3 class="text-lg font-semibold group-hover:text-green transition-colors">
 				{title}
@@ -24,7 +24,7 @@ const readingTime = getReadingTime(post.body);
 				<time datetime={pubDate.toISOString()}>
 					{new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(pubDate)}
 				</time>
-				<span class="text-cyan">{readingTime} min read</span>
+				<span class="text-lime">{readingTime} min read</span>
 				{tags && tags.length > 0 && (
 					<span class="text-orange">{tags[0]}</span>
 				)}

@@ -1,9 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import Header from '@/components/layout/Header.astro';
-import Footer from '@/components/layout/Footer.astro';
-import PixelScene from '@/components/features/PixelScene.astro';
 import { sortPostsByDate, filterDraftPosts, getFeaturedProjects } from '@/utils/sortPosts';
 
 // Get latest blog posts (3)
@@ -18,38 +15,34 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 ---
 
 <BaseLayout
-	title="Gustavo Seixas - Backend Software Engineer"
+	title="gnabak"
 	description="Backend Software Engineer at Amazon in Vancouver. Building scalable systems and writing about development."
 >
-	<Header />
-
 	<main class="container mx-auto px-4 py-12">
 		<div class="mx-auto max-w-3xl space-y-20">
-			<!-- Intro -->
-			<section class="flex flex-col sm:flex-row sm:items-center gap-6">
-				<div class="flex-shrink-0">
-					<PixelScene />
-				</div>
-				<div class="space-y-4">
-					<h1 class="font-display text-4xl font-bold sm:text-5xl">
-						Hi, I'm <span class="text-purple">Gustavo</span><span class="cursor-blink"></span>
-					</h1>
-					<p class="text-xl text-foreground/80 leading-relaxed">
-						Backend Software Engineer at <strong class="text-orange">Amazon</strong> in Vancouver. I build scalable, low-latency systems and write about what I learn.
-					</p>
-				</div>
+			<!-- About -->
+			<section class="space-y-4">
+				<h1 class="font-display text-4xl font-bold sm:text-5xl">
+					<span class="text-gold">Gustavo Seixas</span><span class="cursor-blink"></span>
+				</h1>
+				<p class="text-lg text-foreground/80 leading-relaxed">
+					Backend Software Engineer at <strong class="text-orange">Amazon</strong> in Vancouver. Building scalable, low-latency systems in high-throughput environments.
+				</p>
+				<a href="/about" class="inline-block font-mono text-sm text-comment hover:text-green transition-colors">
+					More about me →
+				</a>
 			</section>
 
 			<!-- Latest Posts -->
 			{latestPosts.length > 0 && (
 				<section class="space-y-6">
-					<h2 class="font-display text-2xl font-bold text-purple">
+					<h2 class="font-display text-2xl font-bold text-gold">
 						Recent Writing
 					</h2>
 					<div class="space-y-2">
 						{latestPosts.map((post) => (
 							<a href={`/blog/${post.slug}`} class="block group">
-								<article class="border-l-[3px] border-purple pl-4 py-3 ml-0 sm:-ml-4 line-highlight shadow-sm">
+								<article class="border-l-[3px] border-gold pl-4 py-3 ml-0 sm:-ml-4 line-highlight shadow-sm">
 									<div class="space-y-2 min-w-0">
 										<h3 class="text-lg font-semibold group-hover:text-green transition-colors">
 											{post.data.title}
@@ -79,7 +72,7 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 			<!-- Projects -->
 			{featuredProjects.length > 0 && (
 				<section class="space-y-6">
-					<h2 class="font-display text-2xl font-bold text-purple">
+					<h2 class="font-display text-2xl font-bold text-gold">
 						Projects
 					</h2>
 					<div class="space-y-6">
@@ -166,6 +159,4 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 			</section>
 		</div>
 	</main>
-
-	<Footer />
 </BaseLayout>

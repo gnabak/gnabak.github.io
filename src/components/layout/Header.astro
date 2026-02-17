@@ -61,7 +61,7 @@ const isActive = (href: string) => {
 						href={item.href}
 						class={`group flex items-center gap-2 font-mono text-sm transition-colors pb-1 ${
 							isActive(item.href)
-								? 'text-foreground border-b-2 border-purple'
+								? 'text-foreground border-b-2 border-gold'
 								: 'text-comment hover:text-foreground'
 						}`}
 						title={item.label}
@@ -117,7 +117,7 @@ const isActive = (href: string) => {
 					href={item.href}
 					class={`flex items-center gap-3 font-mono py-2 text-sm transition-colors ${
 						isActive(item.href)
-							? 'text-foreground border-l-2 border-purple pl-3'
+							? 'text-foreground border-l-2 border-gold pl-3'
 							: 'text-comment hover:text-foreground pl-3'
 					}`}
 				>
