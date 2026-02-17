@@ -173,6 +173,10 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 			clicks = clicks.filter(t => now - t < 5000);
 			if (clicks.length >= 7) {
 				clicks = [];
+				// Create full-screen overlay for animation
+				const overlay = document.createElement('div');
+				overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:50;pointer-events:none;overflow:hidden;';
+				document.body.appendChild(overlay);
 				const boarder = document.createElement('div');
 				boarder.innerHTML = `<svg width="24" height="24" viewBox="0 0 16 16" style="image-rendering:pixelated" fill="rgb(var(--color-green))">
 					<rect x="7" y="1" width="3" height="1"/>
@@ -188,17 +192,17 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 					<rect x="13" y="9" width="1" height="1" fill="rgb(var(--color-foreground))" opacity="0.5"/>
 				</svg>`;
 				boarder.style.cssText = 'position:absolute;z-index:10;pointer-events:none;';
-				banner.appendChild(boarder);
-				const bRect = banner.getBoundingClientRect();
-				const w = bRect.width;
-				const h = bRect.height;
-				const dur = 4000;
+				overlay.appendChild(boarder);
+				const w = window.innerWidth;
+				const h = window.innerHeight;
+				const dur = 6000;
 				const start = performance.now();
-				// S-curve: descend top-to-bottom, sway left-right
+				// Wide horizontal S-curves across the full screen
 				const midX = w / 2;
-				const sway = w * 0.18;
+				const sway = w * 0.4;
+				const turns = 4;
 				function getPos(t: number) {
-					const x = midX + Math.sin(t * Math.PI * 2) * sway;
+					const x = midX + Math.sin(t * Math.PI * turns) * sway;
 					const y = -24 + t * (h + 48);
 					return { x, y };
 				}
@@ -215,7 +219,7 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 				trailPath.setAttribute('stroke-linecap', 'round');
 				trailPath.setAttribute('stroke-linejoin', 'round');
 				trailSvg.appendChild(trailPath);
-				banner.appendChild(trailSvg);
+				overlay.appendChild(trailSvg);
 				let pathData = '';
 				function frame(time: number) {
 					const p = Math.min((time - start) / dur, 1);
@@ -235,7 +239,7 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 						boarder.remove();
 						trailSvg.style.transition = 'opacity 2s ease';
 						requestAnimationFrame(() => { trailSvg.style.opacity = '0'; });
-						setTimeout(() => { trailSvg.remove(); }, 2100);
+						setTimeout(() => { overlay.remove(); }, 2100);
 					}
 				}
 				requestAnimationFrame(frame);
