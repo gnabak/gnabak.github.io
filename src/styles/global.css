@@ -28,21 +28,6 @@
 	--color-primary: 240 195 75;
 }
 
-@media (prefers-color-scheme: light) {
-	:root {
-		--color-background: 255 250 238;    /* warm cream paper */
-		--color-foreground: 35 30 25;       /* warm near-black */
-		--color-muted: 245 238 225;         /* soft parchment */
-		--color-border: 215 208 195;        /* warm sand */
-		--color-green: 15 135 55;           /* deep forest — links */
-		--color-orange: 190 95 5;           /* deep amber — tags */
-		--color-lime: 10 100 180;           /* deep sky — metadata */
-		--color-gold: 155 110 15;           /* deep honey — headings */
-		--color-red: 195 50 45;             /* deep coral — errors */
-		--color-comment: 75 115 55;         /* deep sage — comments */
-		--color-primary: 155 110 15;
-	}
-}
 
 @layer base {
 	html {

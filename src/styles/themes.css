@@ -12,19 +12,3 @@
 	--color-comment: 120 155 100;
 	--color-primary: 240 195 75;
 }
-
-@media (prefers-color-scheme: light) {
-	:root {
-		--color-background: 255 250 238;
-		--color-foreground: 35 30 25;
-		--color-muted: 245 238 225;
-		--color-border: 215 208 195;
-		--color-green: 15 135 55;
-		--color-orange: 190 95 5;
-		--color-lime: 10 100 180;
-		--color-gold: 155 110 15;
-		--color-red: 195 50 45;
-		--color-comment: 75 115 55;
-		--color-primary: 155 110 15;
-	}
-}
