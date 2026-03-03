@@ -19,11 +19,23 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 	title="gnabak"
 	description="Backend Software Engineer at Amazon in Vancouver. Building scalable systems and writing about development."
 >
+	<canvas id="particle-canvas" class="fixed inset-0 -z-10 pointer-events-none opacity-40" aria-hidden="true"></canvas>
 	<main class="container mx-auto px-4 py-12">
 		<div class="mx-auto max-w-3xl space-y-14">
 			<!-- Hero -->
 			<section class="space-y-6 relative overflow-hidden" id="ascii-banner">
-				<pre class="text-gold font-mono text-[0.45rem] leading-[1.1] sm:text-[0.6rem] md:text-xs select-none" aria-label="gnabak">{`
+				<pre
+					id="ascii-art"
+					class="ascii-glitch text-gold font-mono text-[0.45rem] leading-[1.1] sm:text-[0.6rem] md:text-xs select-none"
+					aria-label="gnabak"
+					data-text={`
+  ██████╗ ███╗   ██╗ █████╗ ██████╗  █████╗ ██╗  ██╗
+ ██╔════╝ ████╗  ██║██╔══██╗██╔══██╗██╔══██╗██║ ██╔╝
+ ██║  ███╗██╔██╗ ██║███████║██████╔╝███████║█████╔╝
+ ██║   ██║██║╚██╗██║██╔══██║██╔══██╗██╔══██║██╔═██╗
+ ╚██████╔╝██║ ╚████║██║  ██║██████╔╝██║  ██║██║  ██╗
+  ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝`}
+				>{`
   ██████╗ ███╗   ██╗ █████╗ ██████╗  █████╗ ██╗  ██╗
  ██╔════╝ ████╗  ██║██╔══██╗██╔══██╗██╔══██╗██║ ██╔╝
  ██║  ███╗██╔██╗ ██║███████║██████╔╝███████║█████╔╝
@@ -35,8 +47,8 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 					<p>
 						<span class="text-comment">$</span> <span class="text-foreground">whoami</span>
 					</p>
-					<p class="text-green">
-						<span class="typing-line">&gt; backend engineer, snowboarder, builder</span>
+					<p>
+						<span id="scramble-target" class="scramble-line">&gt; backend engineer, snowboarder, builder</span>
 					</p>
 				</div>
 
@@ -59,12 +71,14 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 			<!-- Latest Posts -->
 			{latestPosts.length > 0 && (
 				<section class="space-y-6">
-					<h2 class="font-display text-2xl font-bold text-gold">
-						Recent Writing
+					<h2 class="font-display text-2xl font-bold text-gold" data-animate>
+						<span class="text-comment cursor-blink mr-1">$</span> Recent Writing
 					</h2>
 					<div class="space-y-2">
 						{latestPosts.map((post, index) => (
-							<BlogCard post={post} lineNumber={index + 1} />
+							<div data-animate style={`--animate-delay: ${index * 80}ms`}>
+								<BlogCard post={post} lineNumber={index + 1} />
+							</div>
 						))}
 					</div>
 					<a href="/posts" class="inline-block font-mono text-sm text-comment hover:text-green transition-colors">
@@ -76,30 +90,32 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 			<!-- Projects -->
 			{featuredProjects.length > 0 && (
 				<section class="space-y-6">
-					<h2 class="font-display text-2xl font-bold text-gold">
-						Projects
+					<h2 class="font-display text-2xl font-bold text-gold" data-animate>
+						<span class="text-comment cursor-blink mr-1">$</span> Projects
 					</h2>
 					<div class="space-y-6">
-						{featuredProjects.map((project) => (
-							<a href={`/projects/${project.slug}`} class="block group">
-								<article class="space-y-3 p-4 line-highlight border border-border rounded-lg">
-									<h3 class="text-lg font-semibold group-hover:text-green transition-colors">
-										{project.data.title}
-									</h3>
-									<p class="text-foreground/70 text-sm">
-										{project.data.description}
-									</p>
-									{project.data.techStack && project.data.techStack.length > 0 && (
-										<div class="flex flex-wrap gap-2">
-											{project.data.techStack.slice(0, 4).map((tech) => (
-												<span class="font-mono text-xs px-2 py-1 rounded bg-muted text-orange border border-border">
-													{tech}
-												</span>
-											))}
-										</div>
-									)}
-								</article>
-							</a>
+						{featuredProjects.map((project, index) => (
+							<div data-animate style={`--animate-delay: ${index * 100}ms`}>
+								<a href={`/projects/${project.slug}`} class="block group">
+									<article class="space-y-3 p-4 line-highlight border border-border rounded-lg">
+										<h3 class="text-lg font-semibold group-hover:text-green transition-colors">
+											{project.data.title}
+										</h3>
+										<p class="text-foreground/70 text-sm">
+											{project.data.description}
+										</p>
+										{project.data.techStack && project.data.techStack.length > 0 && (
+											<div class="flex flex-wrap gap-2">
+												{project.data.techStack.slice(0, 4).map((tech) => (
+													<span class="font-mono text-xs px-2 py-1 rounded bg-muted text-orange border border-border">
+														{tech}
+													</span>
+												))}
+											</div>
+										)}
+									</article>
+								</a>
+							</div>
 						))}
 					</div>
 					<a href="/projects" class="inline-block font-mono text-sm text-comment hover:text-green transition-colors">
@@ -164,8 +180,144 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 		</div>
 	</main>
 <script>
-	const banner = document.getElementById('ascii-banner');
-	if (banner) {
+	// ── Module-level IDs so the persistent astro:before-swap listener
+	//    can cancel pending work regardless of when it fires ─────────────
+	let particleRafId = 0;
+	let scrambleRafId = 0;
+	let scrambleTimerId: ReturnType<typeof setTimeout> | undefined;
+	let glitchTimerId: ReturnType<typeof setTimeout> | undefined;
+
+	interface Particle { x: number; y: number; speed: number; size: 1 | 2; color: string; opacity: number; phase: number; }
+
+	// ── Pixel particle canvas ────────────────────────────────────────────
+	function initParticles() {
+		const canvas = document.getElementById('particle-canvas') as HTMLCanvasElement | null;
+		if (!canvas) return;
+		const ctx = canvas.getContext('2d');
+		if (!ctx) return;
+
+		function mkParticle(scattered = false): Particle {
+			const s = getComputedStyle(document.documentElement);
+			const colors = [
+				`rgb(${s.getPropertyValue('--color-gold')})`,
+				`rgb(${s.getPropertyValue('--color-green')})`,
+				`rgb(${s.getPropertyValue('--color-orange')})`,
+				`rgb(${s.getPropertyValue('--color-lime')})`,
+			];
+			return {
+				x: Math.random() * canvas!.width,
+				y: scattered ? Math.random() * canvas!.height : canvas!.height + Math.random() * 80,
+				speed: 0.15 + Math.random() * 0.3,
+				size: Math.random() < 0.65 ? 1 : 2,
+				color: colors[Math.floor(Math.random() * colors.length)],
+				opacity: 0.1 + Math.random() * 0.22,
+				phase: Math.random() * Math.PI * 2,
+			};
+		}
+
+		const COUNT = 30;
+		const particles: Particle[] = [];
+		let tick = 0;
+
+		function resize() {
+			canvas!.width = window.innerWidth;
+			canvas!.height = window.innerHeight;
+		}
+
+		function setup() {
+			resize();
+			particles.length = 0;
+			for (let i = 0; i < COUNT; i++) particles.push(mkParticle(true));
+		}
+
+		function draw() {
+			tick++;
+			ctx!.clearRect(0, 0, canvas!.width, canvas!.height);
+			for (const p of particles) {
+				p.y -= p.speed;
+				p.x += Math.sin(tick * 0.01 + p.phase) * 0.12;
+				const alpha = p.opacity * (0.5 + 0.5 * Math.sin(tick * 0.018 + p.phase));
+				ctx!.globalAlpha = alpha;
+				ctx!.fillStyle = p.color;
+				ctx!.fillRect(Math.round(p.x), Math.round(p.y), p.size, p.size);
+				if (p.y < -p.size) Object.assign(p, mkParticle(false));
+			}
+			ctx!.globalAlpha = 1;
+			particleRafId = requestAnimationFrame(draw);
+		}
+
+		setup();
+		draw();
+		window.addEventListener('resize', setup, { passive: true });
+	}
+
+	// ── Text scramble decode on whoami line ─────────────────────────────
+	function initScramble() {
+		const el = document.getElementById('scramble-target');
+		if (!el) return;
+		const FINAL = '> backend engineer, snowboarder, builder';
+		const CHARSET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*!?';
+		const DURATION_PER_CHAR = 40;
+		const LEAD_CHARS = 4;
+
+		function scramble(startTime: number, now: number) {
+			const elapsed = now - startTime;
+			const resolved = Math.min(Math.floor(elapsed / DURATION_PER_CHAR), FINAL.length);
+			let output = '';
+			for (let i = 0; i < FINAL.length; i++) {
+				if (FINAL[i] === ' ') { output += ' '; continue; }
+				if (i < resolved) {
+					output += FINAL[i];
+				} else if (i < resolved + LEAD_CHARS) {
+					output += CHARSET[Math.floor(Math.random() * CHARSET.length)];
+				} else {
+					output += CHARSET[Math.floor(Math.random() * CHARSET.length)];
+				}
+			}
+			el!.textContent = output;
+			if (resolved < FINAL.length) {
+				scrambleRafId = requestAnimationFrame(t => scramble(startTime, t));
+			} else {
+				el!.textContent = FINAL;
+			}
+		}
+
+		scrambleTimerId = setTimeout(() => {
+			el!.textContent = '';
+			scrambleRafId = requestAnimationFrame(t => scramble(t, t));
+		}, 800);
+	}
+
+	// ── ASCII banner glitch effect ───────────────────────────────────────
+	function initGlitch() {
+		const art = document.getElementById('ascii-art');
+		if (!art) return;
+
+		function triggerGlitch() {
+			art!.classList.add('glitching');
+			setTimeout(() => art!.classList.remove('glitching'), 220);
+		}
+
+		function scheduleGlitch() {
+			const delay = 6000 + Math.random() * 3000;
+			glitchTimerId = setTimeout(() => { triggerGlitch(); scheduleGlitch(); }, delay);
+		}
+		scheduleGlitch();
+
+		art.addEventListener('mouseenter', triggerGlitch);
+		art.addEventListener('click', () => {
+			art!.classList.remove('clicked');
+			// Force reflow so re-clicking restarts the animation
+			void (art as HTMLElement).offsetWidth;
+			art!.classList.add('clicked');
+			art!.addEventListener('animationend', () => art!.classList.remove('clicked'), { once: true });
+		});
+	}
+
+	// ── Easter egg: snowboarder on 7 rapid clicks ───────────────────────
+	function initEasterEgg() {
+		const banner = document.getElementById('ascii-banner');
+		if (!banner) return;
 		let clicks: number[] = [];
 		banner.addEventListener('click', () => {
 			const now = Date.now();
@@ -173,7 +325,6 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 			clicks = clicks.filter(t => now - t < 5000);
 			if (clicks.length >= 7) {
 				clicks = [];
-				// Create full-screen overlay for animation
 				const overlay = document.createElement('div');
 				overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:50;pointer-events:none;overflow:hidden;';
 				document.body.appendChild(overlay);
@@ -197,7 +348,6 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 				const h = window.innerHeight;
 				const dur = 6000;
 				const start = performance.now();
-				// Wide horizontal S-curves across the full screen
 				const midX = w / 2;
 				const sway = w * 0.4;
 				const turns = 4;
@@ -206,7 +356,6 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 					const y = -24 + t * (h + 48);
 					return { x, y };
 				}
-				// Draw trail as an SVG path
 				const trailSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 				trailSvg.setAttribute('width', String(w));
 				trailSvg.setAttribute('height', String(h));
@@ -246,5 +395,29 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 			}
 		});
 	}
+
+	// ── Lifecycle: cleanup before swap, re-init after swap ───────────────
+	function cleanupPage() {
+		cancelAnimationFrame(particleRafId);
+		cancelAnimationFrame(scrambleRafId);
+		clearTimeout(scrambleTimerId);
+		clearTimeout(glitchTimerId);
+	}
+
+	function initPage() {
+		initParticles();
+		initScramble();
+		initGlitch();
+		initEasterEgg();
+	}
+
+	// These listeners are registered once at module-eval time and persist
+	// across all ViewTransitions navigations.
+	document.addEventListener('astro:before-swap', cleanupPage);
+	document.addEventListener('astro:after-swap', () => {
+		if (document.getElementById('particle-canvas')) initPage();
+	});
+
+	initPage();
 </script>
 </BaseLayout>

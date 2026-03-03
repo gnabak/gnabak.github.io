@@ -22,6 +22,7 @@ const readingTime = getReadingTime(post.body);
 	type="article"
 	publishedTime={pubDate.toISOString()}
 >
+	<div id="reading-progress" aria-hidden="true"></div>
 	<nav class="container mx-auto px-4 pt-6 pb-2">
 		<div class="mx-auto max-w-3xl">
 			<a href="/" class="inline-flex items-center gap-2 font-mono text-sm text-comment hover:text-green transition-colors">
@@ -99,3 +100,18 @@ const readingTime = getReadingTime(post.body);
 		@apply border-l-2 border-comment pl-4 italic my-6 text-comment;
 	}
 </style>
+
+<script is:inline>
+	(function () {
+		var bar = document.getElementById('reading-progress');
+		if (!bar) return;
+		function update() {
+			var el = document.documentElement;
+			var scrolled = el.scrollTop || document.body.scrollTop;
+			var total = el.scrollHeight - el.clientHeight;
+			bar.style.width = (total > 0 ? (scrolled / total) * 100 : 0) + '%';
+		}
+		window.addEventListener('scroll', update, { passive: true });
+		update();
+	})();
+</script>

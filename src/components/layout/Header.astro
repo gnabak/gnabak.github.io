@@ -72,7 +72,7 @@ const isActive = (href: string) => {
 							class="flex-shrink-0"
 							set:html={item.icon}
 						/>
-						{item.label}
+						{isActive(item.href) && <span class="nav-cursor text-gold" aria-hidden="true">▌</span>}{item.label}
 					</a>
 				))}
 
@@ -127,7 +127,7 @@ const isActive = (href: string) => {
 						class="flex-shrink-0"
 						set:html={item.icon}
 					/>
-					{item.label}
+					{isActive(item.href) && <span class="nav-cursor text-gold" aria-hidden="true">▌</span>}{item.label}
 				</a>
 			))}
 		</nav>
