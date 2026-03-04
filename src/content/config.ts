@@ -11,7 +11,7 @@ const blog = defineCollection({
 		image: z.string().optional(),
 		imageAlt: z.string().optional(),
 		tags: z.array(z.string()).default([]),
-		category: z.enum(['tutorial', 'project', 'thoughts', 'guide']).default('thoughts'),
+		category: z.enum(['tutorial', 'project', 'thoughts', 'guide', 'essay']).default('thoughts'),
 		featured: z.boolean().default(false),
 		draft: z.boolean().default(false),
 	}),
