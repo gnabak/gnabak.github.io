@@ -19,7 +19,6 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 	title="gnabak"
 	description="Backend Software Engineer at Amazon in Vancouver. Building scalable systems and writing about development."
 >
-	<canvas id="particle-canvas" class="fixed inset-0 -z-10 pointer-events-none opacity-40" aria-hidden="true"></canvas>
 	<main class="container mx-auto px-4 py-12">
 		<div class="mx-auto max-w-3xl space-y-14">
 			<!-- Hero -->
@@ -182,74 +181,9 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 <script>
 	// ── Module-level IDs so the persistent astro:before-swap listener
 	//    can cancel pending work regardless of when it fires ─────────────
-	let particleRafId = 0;
 	let scrambleRafId = 0;
 	let scrambleTimerId: ReturnType<typeof setTimeout> | undefined;
 	let glitchTimerId: ReturnType<typeof setTimeout> | undefined;
-
-	interface Particle { x: number; y: number; speed: number; size: 1 | 2; color: string; opacity: number; phase: number; }
-
-	// ── Pixel particle canvas ────────────────────────────────────────────
-	function initParticles() {
-		const canvas = document.getElementById('particle-canvas') as HTMLCanvasElement | null;
-		if (!canvas) return;
-		const ctx = canvas.getContext('2d');
-		if (!ctx) return;
-
-		function mkParticle(scattered = false): Particle {
-			const s = getComputedStyle(document.documentElement);
-			const colors = [
-				`rgb(${s.getPropertyValue('--color-gold')})`,
-				`rgb(${s.getPropertyValue('--color-green')})`,
-				`rgb(${s.getPropertyValue('--color-orange')})`,
-				`rgb(${s.getPropertyValue('--color-lime')})`,
-			];
-			return {
-				x: Math.random() * canvas!.width,
-				y: scattered ? Math.random() * canvas!.height : canvas!.height + Math.random() * 80,
-				speed: 0.15 + Math.random() * 0.3,
-				size: Math.random() < 0.65 ? 1 : 2,
-				color: colors[Math.floor(Math.random() * colors.length)],
-				opacity: 0.1 + Math.random() * 0.22,
-				phase: Math.random() * Math.PI * 2,
-			};
-		}
-
-		const COUNT = 30;
-		const particles: Particle[] = [];
-		let tick = 0;
-
-		function resize() {
-			canvas!.width = window.innerWidth;
-			canvas!.height = window.innerHeight;
-		}
-
-		function setup() {
-			resize();
-			particles.length = 0;
-			for (let i = 0; i < COUNT; i++) particles.push(mkParticle(true));
-		}
-
-		function draw() {
-			tick++;
-			ctx!.clearRect(0, 0, canvas!.width, canvas!.height);
-			for (const p of particles) {
-				p.y -= p.speed;
-				p.x += Math.sin(tick * 0.01 + p.phase) * 0.12;
-				const alpha = p.opacity * (0.5 + 0.5 * Math.sin(tick * 0.018 + p.phase));
-				ctx!.globalAlpha = alpha;
-				ctx!.fillStyle = p.color;
-				ctx!.fillRect(Math.round(p.x), Math.round(p.y), p.size, p.size);
-				if (p.y < -p.size) Object.assign(p, mkParticle(false));
-			}
-			ctx!.globalAlpha = 1;
-			particleRafId = requestAnimationFrame(draw);
-		}
-
-		setup();
-		draw();
-		window.addEventListener('resize', setup, { passive: true });
-	}
 
 	// ── Text scramble decode on whoami line ─────────────────────────────
 	function initScramble() {
@@ -398,14 +332,12 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 
 	// ── Lifecycle: cleanup before swap, re-init after swap ───────────────
 	function cleanupPage() {
-		cancelAnimationFrame(particleRafId);
 		cancelAnimationFrame(scrambleRafId);
 		clearTimeout(scrambleTimerId);
 		clearTimeout(glitchTimerId);
 	}
 
 	function initPage() {
-		initParticles();
 		initScramble();
 		initGlitch();
 		initEasterEgg();
@@ -415,7 +347,7 @@ const featuredProjects = getFeaturedProjects(allProjects).slice(0, 2);
 	// across all ViewTransitions navigations.
 	document.addEventListener('astro:before-swap', cleanupPage);
 	document.addEventListener('astro:after-swap', () => {
-		if (document.getElementById('particle-canvas')) initPage();
+		if (document.getElementById('ascii-art')) initPage();
 	});
 
 	initPage();
