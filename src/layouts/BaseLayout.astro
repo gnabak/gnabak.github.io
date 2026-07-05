@@ -1,6 +1,7 @@
 ---
 import '@/styles/global.css';
 import { ViewTransitions } from 'astro:transitions';
+import DotField from '@/components/features/DotField.astro';
 
 interface Props {
 	title: string;
@@ -85,6 +86,7 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 		})} />
 	</head>
 	<body class="bg-background text-foreground antialiased">
+		<DotField />
 		<slot />
 	</body>
 </html>
